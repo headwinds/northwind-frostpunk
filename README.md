@@ -3,6 +3,10 @@ a tutorial exploring golang, the northwind database, and the post apocalypse
 
 This tutorial is geared towards Mac users.
 
+why am I making this? I've become familar with the Northwind database to teach SQL but I thought many of the tutorials I went through to be crudely designed and I simply desired something that would encourage me to explore and expand upon it. 
+
+I also wanted to work on Golang again since the last app I built was several months ago and it feels like I've forgotten all the syntax. Fortunately, building software is like riding bike! Even if it is a bit rickety at the start...
+
 <img src="frostpunk.png" />
 
 ## Day 1 Overview
