@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/headwinds/northwind-frostpunk/greetings"
+
 	_ "github.com/lib/pq"
 )
 
@@ -16,6 +18,10 @@ const (
 )
 
 func main() {
+
+  message := greetings.Hello()
+  fmt.Println(message)
+
   psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
     "password=%s dbname=%s sslmode=disable",
     host, port, user, password, dbname)

@@ -1,9 +1,13 @@
-package main
+package greetings
 
-import "fmt"
+import (
+	"fmt"
 
-import "rsc.io/quote"
+	"rsc.io/quote"
+)
 
-func Pithy() {
-    fmt.Println(quote.Go())
+func Hello()  string {
+    hello := quote.Hello()
+    message := fmt.Sprintf("Hi, %v. Welcome!", hello)
+    return message
 }

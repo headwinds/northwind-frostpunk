@@ -3,13 +3,15 @@ a tutorial exploring golang, the northwind database, and the post apocalypse
 
 This tutorial is geared towards Mac users.
 
-## Overview
+<img src="frostpunk.png" />
+
+## Day 1 Overview
 
 1. setup and connect to postgres
 2. learn a bit of golang 
 3. connect golang to postgres
 4. explore the database and learn about CTEs
-4. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/Frostpunk)!
+5. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/Frostpunk)!
 
 ## PostgreSQL 
 
@@ -45,7 +47,18 @@ Initialy, I found it challenging to connect to the database running in its docke
 
 I followed this golang [getting-started](https://go.dev/doc/tutorial/getting-started) tutorial as a refresher since I hadn't touched golang in several months.
 
-Next, after I was to output some pithy text and learned the `go mod tidy` command, I tackled this [go and postgres](https://www.calhoun.io/connecting-to-a-postgresql-database-with-gos-database-sql-package/) tutorial.
+Next, after I was to output some pithy text and learned the `go mod tidy` command, I tackled this [go and postgres](https://www.calhoun.io/connecting-to-a-postgresql-database-with-gos-database-sql-package/) tutorial. 
+
+As I already wrestled the postgres setup, the code provided in the tutorial worked right away. Now, I wanted to import my own function into my main project so I could log a pithy quote. I reviewed the [go mod](https://go.dev/doc/tutorial/create-module) tutorial and converted my original hello.go script into a function that I could import.  
+
+## Day 2 Survive the night!
+
+As I accomplished the first 3 steps in my plan yesterday, I needed a couple more hours to put the finishing touches on this guided tutorial. 
+
+4. explore the database and learn about CTEs
+5. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/
+
+
 
 
 
