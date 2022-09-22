@@ -17,19 +17,13 @@ This tutorial is geared towards Mac users.
 
 [northwind_psql](https://github.com/pthom/northwind_psql) is a github repo that sets up Postgres with a docker container. 
 
-In addition to its readme, I would add that the following setup:
-
-####
-
-1. docker-compose up
-
-Once the docker is up and finishes installed the database, open another another terminal window and test the conection 
+In addition to its readme, I would add that the following guide post that once the docker is up and finishes installing the database, open another another terminal window and test the conection.  
 
 ```
 docker-compose exec db psql -U postgres -d northwind
 ```
 
-After you've tested the connection, you can also try to connect with a tool like pgAdmin4 or DBeaver. 
+After you've tested the connection, you can also try to connect with a tool like [pgAdmin4](https://www.pgadmin.org/) or [DBeaver](https://dbeaver.io/); they are both excellent! 
 
 #### Connection 
 
