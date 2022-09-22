@@ -51,15 +51,22 @@ Next, after I was to output some pithy text and learned the `go mod tidy` comman
 
 As I already wrestled the postgres setup, the code provided in the tutorial worked right away. Now, I wanted to import my own function into my main project so I could log a pithy quote. I reviewed the [go mod](https://go.dev/doc/tutorial/create-module) tutorial and converted my original hello.go script into a function that I could import.  
 
-## Day 2 Survive the night!
+-- Sept 21/2022 -- 
 
-As I accomplished the first 3 steps in my plan yesterday, I needed a couple more hours to put the finishing touches on this guided tutorial. 
+Day 1 took me about 4 hours in 2 sessions
+
+As I accomplished the first 3 steps in my plan, I think I'll needed a couple more hours to put the finishing touches on this guided tutorial. I still need to:
 
 4. explore the database and learn about CTEs
 5. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/
 
+Anyways, I'm happy with this progress
+
 [as the hours pass...](https://www.youtube.com/watch?v=RQBDSciMe8c)
 
+## Day 2 Survive the night! 
+
+coming soon
 
 
 
