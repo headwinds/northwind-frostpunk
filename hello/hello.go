@@ -1,4 +1,4 @@
-package greetings
+package hello
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 )
 
 func Hello()  string {
-    hello := quote.Hello()
+    hello := quote.Glass()
     message := fmt.Sprintf("Hi, %v. Welcome!", hello)
     return message
 }

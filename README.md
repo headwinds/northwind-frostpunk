@@ -58,6 +58,8 @@ As I accomplished the first 3 steps in my plan yesterday, I needed a couple more
 4. explore the database and learn about CTEs
 5. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/
 
+[as the hours pass...](https://www.youtube.com/watch?v=RQBDSciMe8c)
+
 
 
 

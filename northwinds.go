@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/headwinds/northwind-frostpunk/greetings"
+	"github.com/headwinds/northwind-frostpunk/hello"
 
 	_ "github.com/lib/pq"
 )
@@ -19,7 +19,7 @@ const (
 
 func main() {
 
-  message := greetings.Hello()
+  message := hello.Hello()
   fmt.Println(message)
 
   psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
