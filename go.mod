@@ -3,6 +3,7 @@ module github.com/headwinds/northwind-frostpunk
 go 1.17
 
 require (
+	github.com/bdwilliams/go-jsonify v0.0.0-20141020182238-48749139e742
 	github.com/lib/pq v1.10.7
 	rsc.io/quote v1.5.2
 )
