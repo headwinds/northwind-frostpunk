@@ -2,6 +2,8 @@ package customer_journey
 
 import (
 	"fmt"
+
+	"github.com/samber/lo"
 )
 
 // Glossary
@@ -51,9 +53,8 @@ func story() string {
 	message := fmt.Sprintf("Order status: %s", description)
 	return message
 }
- 
 
-func GetStatusDescriptions( Id Status) string {
+func getOrderStatusList() []OrderStatus {
 	var order_status_list []OrderStatus
 
 	// 1
@@ -113,29 +114,17 @@ func GetStatusDescriptions( Id Status) string {
 	returned := OrderStatus{ Description: returned_description, Id: RETURNED, Step: 10 }
 	order_status_list = append(order_status_list, returned)
 
-	/*
-	str, ok := lo.Find([]string{"foobar"}, func(i string) bool {
-    return i == "b"
-})
-	}
-	*/
+	return order_status_list
+}
+ 
 
-	// how do I pass in the argument to this function?
+func GetStatusDescriptions( Id Status) string {
+	
+	order_status_list := getOrderStatusList()
 
-	/*
-	orderStatus, ok := lo.Find(order_status_list []OrderStatus, func(orderStatus OrderStatus) bool {
-		return orderStatus.Id == FRAUD_CHECKED
-	})
-	*/
-	/*
-	orderStatus, ok := lo.Find(order_status_list, hello, func(orderStatus OrderStatus) bool {
-		return orderStatus.Id == FRAUD_CHECKED
-	})*/
-	// before I use the lo library, I want to see if I can do this with a for loop
 	var orderStatus OrderStatus
 	var searchFor = Id
 	for _, value := range order_status_list {
-		//fmt.Println(i, s)
 		if (value.Id == searchFor) {
 			orderStatus = value
 		}
@@ -144,3 +133,17 @@ func GetStatusDescriptions( Id Status) string {
 	return orderStatus.Description 
 }
 
+func FilteredOrderStatusList(find int) []int{
+
+	//order_status_list := getOrderStatusList()
+
+	/*
+	newOrderStatusList := lo.Filter[OrderStatus](order_status_list, func(orderStatus OrderStatus) bool {
+		return orderStatus.Id == Id
+	})*/
+	even := lo.Filter[int]([]int{1, 2, 3, 4}, func(x int, _ int) bool {
+		return x == find
+	})
+
+	return even
+}

@@ -421,6 +421,9 @@ orderStatus, ok := lo.Find(order_status_list, func(orderStatus OrderStatus) bool
 	})
 ```
 
+Instead of struggling to learn `lo` in a larger project, I kicked tires in a [go playgroound](https://go.dev/play/p/dxXmzkdCRPw).
+
+
 ```
 CREATE TABLE customer_journey(
   order_status_id serial primary key,

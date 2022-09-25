@@ -20,6 +20,7 @@ type CustomerJourney struct{
 type ResponseBody struct{
     CustomJournies []CustomerJourney
 	Message string
+	FilteredOrderStatusList []OrderStatus
 }
 
 type DatabaseHandler struct {
