@@ -300,23 +300,9 @@ This write up was banged out to [Nina Las Vegas b2b Swick DJ Set | Keep Hush Liv
 
 ## Day 3 
 
-goal 1 min CLI gameplay! 
-
-coming soon 
-
-Points gamification & order status
-
-[poslog](https://www.yellowfinbi.com/blog/2013/06/yfcommunitynews-poslog-one-data-container-to-rule-them-all-well-at-least-for-retail-141038/)
-
-[Composition](https://medium.com/bitaksi-tech/object-oriented-approach-in-go-179c85486c76) 
-
-```
-If a struct, field, or function’s name starts with a lowercase letter, that means it’s private
-```
-
-to GCP?
-
-https://medium.com/@crypto-gopher/learn-how-to-containerize-your-go-app-in-5-minutes-e654fdb2afd8
+- Points, gamification & order status
+- [poslog](https://www.yellowfinbi.com/blog/2013/06/yfcommunitynews-poslog-one-data-container-to-rule-them-all-well-at-least-for-retail-141038/)
+- [Composition](https://medium.com/bitaksi-tech/object-oriented-approach-in-go-179c85486c76) 
 
 #### Order Status
 
@@ -421,7 +407,7 @@ orderStatus, ok := lo.Find(order_status_list, func(orderStatus OrderStatus) bool
 	})
 ```
 
-Instead of struggling to learn `lo` in a larger project, I kicked tires in a [go playgroound](https://go.dev/play/p/dxXmzkdCRPw).
+Instead of struggling to learn `lo` in a larger project, I kicke its tires in a [go playgroound](https://go.dev/play/p/dxXmzkdCRPw).
 
 
 ```
