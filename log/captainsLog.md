@@ -323,13 +323,35 @@ https://medium.com/@crypto-gopher/learn-how-to-containerize-your-go-app-in-5-min
 ```
 CREATE TABLE order_status(
   order_status_id serial primary key,
-  CONSTRAINT order_id_fkey FOREIGN KEY (order_id)
-    REFERENCES employee (order_id) MATCH SIMPLE
-    ON UPDATE NO ACTION ON DELETE NO ACTION,
   created_at timestamp default current_timestamp,
   updated_at timestamp default current_timestamp
 );
 ```
+```
+ALTER TABLE order_status 
+    ADD COLUMN order_id INTEGER 
+    REFERENCES orders (order_id);
+```  
+
+OR in one go....
+
+```
+DROP TABLE order_status;
+```
+
+```
+CREATE TABLE order_status(
+  order_status_id serial primary key,
+  order_status varchar(255) NOT NULL,
+  order_id INT,
+   CONSTRAINT fk_order
+      FOREIGN KEY(order_id) 
+	  REFERENCES orders(order_id),
+  created_at timestamp default current_timestamp,
+  updated_at timestamp default current_timestamp
+);
+```
+
 
 What happens to the database over 10 days?
 
@@ -371,3 +393,47 @@ Now that I could query the database and print rows in the terminal I want to ret
 ```
 
 <img src="orders_response.png" />
+
+Design patterns are extremely valuable in programming. When you approach another language, you can lean on these patterns to help you navigate and build workflows. If a language does not support common patterns, it is sign that the language may not be robust and mature as other langauges. 
+
+One of my favourite patterns is [Functional Programming](https://fsharpforfunandprofit.com/fppatterns/), and when coing in Java, Javascript, Go or Python, I attempt to use these patterns as a path to do work in an universal and efficient way. 
+
+Fortunately, Golang can support [FP](https://blog.logrocket.com/functional-programming-in-go/#:~:text=The%20goal%20of%20functional%20programming%20is%20to%20make%20the%20state,that%20may%20cause%20side%20effects.)
+patterns, and once you common FP functions like [map, find, filter, and reduce](https://medium.com/@geisonfgfg/functional-go-bc116f4c96a4) you'll want to reach for these tools to process your data.  
+
+The native functions may not be enough. Im which case, a library like [lo](https://github.com/samber/lo) is worth importing into your project. This `lo` library also the ability to use FP functions within goroutines so that they extremely quick! It also interesting to look at the code behind the FP function like [find](https://github.com/samber/lo/blob/master/find.go) and see how he used [generics](https://go.dev/blog/intro-generics) to make this happen. The documentation for [Find](https://pkg.go.dev/github.com/samber/lo#Find) is nice too. 
+
+For this project, I'm fine without the `lop` goroutine versions. Since I know FP, I can follow the pattern to create a [filter criteria](https://stackoverflow.com/questions/3230944/what-does-predicate-mean-in-the-context-of-computer-science) but instead of boolean predicate function, I want to return a string.
+
+In the stackoverflow, I have a `find` example... 
+
+```
+str, ok := lo.Find([]string{"foobar"}, func(i string) bool {
+    return i == "b"
+})
+```
+
+I want to pass into a list of order status and return an order description by the id. This is the filter criteria that I want to use. 
+
+```
+orderStatus, ok := lo.Find(order_status_list, func(orderStatus OrderStatus) bool {
+		return orderStatus.Id == FRAUD_CHECKED
+	})
+```
+
+```
+CREATE TABLE customer_journey(
+  order_status_id serial primary key,
+  order_status varchar(255) NOT NULL,
+  customer_id varchar(255), 
+  order_id INT,
+  CONSTRAINT customer_id_fkey FOREIGN KEY (customer_id)
+    REFERENCES customers (customer_id) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT order_id_fkey FOREIGN KEY (order_id)
+    REFERENCES orders (order_id) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
+  created_at timestamp default current_timestamp,
+  updated_at timestamp default current_timestamp
+);
+```

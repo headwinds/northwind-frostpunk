@@ -56,23 +56,12 @@ func (h *DatabaseHandler) GetOrders(w http.ResponseWriter, r *http.Request){
 
 	defer rows.Close()
 	for rows.Next() {
-		//var order_id int
-		//var customer_id string
-		//var ship_city string
 
 		var order Order
-	
 		err = rows.Scan(&order.OrderId, &order.CustomerId, &order.ShipCity)
 		checkErr(err)
 	
-		//fmt.Println(order_id, customer_id, ship_city)
-
 		orders = append(orders, order)
-
-		//fmt.Println(jsonify.Jsonify(rows))
-		//w.Header().Set("Content-Type", "application/json")
-		//w.WriteHeader(http.StatusCreated)
-		//json.NewEncoder(w).Encode(jsonify.Jsonify(rows))
 	}
 
 	w.Header().Set("Content-Type", "application/json")
