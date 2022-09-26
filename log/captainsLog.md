@@ -426,3 +426,105 @@ CREATE TABLE customer_journey(
   updated_at timestamp default current_timestamp
 );
 ```
+
+## Day 4
+
+I wanted to continue follow the next tutorial Aurelie Vache series and setup the CLI so that I could play with my new API and simulate customers placing orders and having the shipping respond with fake status. 
+
+I ran into a problem installing the recommend [Cobra](https://github.com/spf13/cobra) library which exposed that my $GOPATH wasn't setup properly. 
+
+I explored and fixed my $GOPATH like so:
+
+which go
+/Users/braflow/.gvm/gos/go1.19.1/bin/go
+
+export GOPATH=/Users/braflow/.gvm/gos/go1.19.1/bin/go
+export PATH=$PATH:$GOPATH/bin
+
+nano .zshrc 
+
+At the bottom of the file, I added
+
+export GOPATH=/Users/braflow/.gvm/gos/go1.19.1/bin/go
+export PATH=$PATH:$GOPATH/bin
+
+Then save & exit nano via:
+
+Ctrl o 
+Ctrl x
+
+Now when I try 
+
+echo $GOPATH 
+
+I should see 
+/Users/braflow/.gvm/gos/go1.19.1/bin/go
+
+If not, you may to restart the terminal - obviously your user path will be different than mine.
+
+And my problem still exists! I'm reading about GOPATH vs GOROOT and seeing that this approach seems to deprecated!
+
+```
+go install github.com/spf13/cobra-cli@latest
+go: could not create module cache: stat /Users/braflow/.gvm/gos/go1.19.1/bin/go/pkg/mod: not a directory
+```
+I know mod is a directory that exists with read/write access so what gives?!
+
+I was able to find cobra-cli file within my file system so I simply manually copied to over the `bin` folder within my `cli` directory
+
+```
+northwind-frostpunk/cli on  cobra [!?] via 🐹 v1.19.1
+➜ ./bin/cobra-cli
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.
+```
+So it seems to run but the init fails 
+
+```
+➜ ./bin/cobra-cli init
+Error: exit status 1
+```
+
+well... it might also be because I'm on the latest version of go according to this [github issue thread](https://github.com/spf13/cobra/issues/1587); at leaset I'm not the only one.
+
+So I installed 1.18.3
+```
+gvm install go1.18.3
+gvm use go1.18.3
+```
+And returned to my folder and presto! 
+```
+cd northwind-frostpunk/cli
+go install github.com/spf13/cobra-cli@latest
+cobra-cli init
+Your Cobra application is ready at
+/Users/braflow/northwind-frostpunk/cli
+```
+I'm back on track with Vache's tutorial except instead of her `get` command I want to create a command that will move the game to the next day
+
+```
+cobra-cli add advanceDay
+```
+
+Perhaps, I'll want to rewind the day but for now let's MVP and move forward. 
+
+```
+go run main.go advanceDay
+```
+
+Ok... so now I have 2 terminal windows.
+
+In the first, I'm running the API so:
+
+```
+cd northwind-frostpunk
+go run .
+```
+
+and in the second, I want to test the API using the CLI
+
+```
+cd northwind-frostpunk/cli
+
+```
