@@ -27,7 +27,7 @@ var advanceDayCmd = &cobra.Command{
         //URL := "https://github.com/scraly/gophers/raw/main/" + gopherName + ".png"
 		URL := "http://localhost:8080/products"
 
-        fmt.Println("This is the argument that I passed: '" + argName)
+        fmt.Println("This is the argument that I passed: " + argName)
 
         // Get the data
         response, err := http.Get(URL)

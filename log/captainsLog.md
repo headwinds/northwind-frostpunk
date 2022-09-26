@@ -526,5 +526,14 @@ and in the second, I want to test the API using the CLI
 
 ```
 cd northwind-frostpunk/cli
+go run main.go advanceDay
+```
 
+I discovered I needed to do a bit more work to [present the json](https://stackoverflow.com/questions/20873640/how-to-get-json-object-by-calling-a-url-in-go-language) 
+
+```
+northwind-frostpunk/cli on  cobra [!] via 🐹 v1.19.1 
+➜ go run . advanceDay day3
+This is the argument that I passed: day3
+Perfect! I should see products:  map[body:[map[product_name:Chai unit_price:18 units_in_stock:39] map[product_name:Chang unit_price:19 units_in_stock:17] map[product_name:Aniseed Syrup unit_price:10 units_in_stock:13]] description: status:200]
 ```
