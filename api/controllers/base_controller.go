@@ -12,19 +12,19 @@ import (
 )
 
 // BaseHandler will hold everything that controller needs
-type BaseHandler struct {
+type DatabaseHandler struct {
 	db *sql.DB
 }
 
 // NewBaseHandler returns a new BaseHandler
-func NewBaseHandler(db *sql.DB) *BaseHandler {
-	return &BaseHandler{
+func BaseController(db *sql.DB) *DatabaseHandler {
+	return &DatabaseHandler{
 		db: db,
 	}
 }
 
 // HelloWorld returns Hello, World
-func (h *BaseHandler) HelloWorld(w http.ResponseWriter, r *http.Request) {
+func (h *DatabaseHandler) HelloWorld(w http.ResponseWriter, r *http.Request) {
 	if err := h.db.Ping(); err != nil {
 		fmt.Println("DB Error")
 	}

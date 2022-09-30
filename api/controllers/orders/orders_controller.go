@@ -70,3 +70,29 @@ func (h *DatabaseHandler) GetOrders(w http.ResponseWriter, r *http.Request){
 	checkErr(err)
 
 }
+
+func (h *DatabaseHandler) SimulateOrders(w http.ResponseWriter, r *http.Request){
+	if err := h.db.Ping(); err != nil {
+		fmt.Println("DB Error")
+	}
+
+	var orders []Order
+	rows, err := h.db.Query(`SELECT "order_id", "customer_id", "ship_city" FROM "orders" LIMIT 3`)
+	checkErr(err)
+
+	defer rows.Close()
+	for rows.Next() {
+
+		var order Order
+		err = rows.Scan(&order.OrderId, &order.CustomerId, &order.ShipCity)
+		checkErr(err)
+	
+		orders = append(orders, order)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(HttpResp{Status: 200, Body: orders})
+
+	checkErr(err)
+
+}

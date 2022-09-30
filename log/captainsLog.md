@@ -537,3 +537,51 @@ northwind-frostpunk/cli on  cobra [!] via 🐹 v1.19.1
 This is the argument that I passed: day3
 Perfect! I should see products:  map[body:[map[product_name:Chai unit_price:18 units_in_stock:39] map[product_name:Chang unit_price:19 units_in_stock:17] map[product_name:Aniseed Syrup unit_price:10 units_in_stock:13]] description: status:200]
 ```
+# Day 5
+
+https://github.com/inancgumus/learngo
+
+planning 5 days of orders to reach 1M+ in sales. Is this even possible with the current customer base?
+
+And what is already in the database?
+
+```
+SELECT COUNT(*)
+FROM customers;
+```
+91 Customers
+```
+SELECT COUNT(*)
+FROM products;
+```
+77 Products
+```
+SELECT COUNT(*)
+FROM orders;
+```
+830 Orders
+
+Let's look at few orders
+```
+SELECT * 
+FROM orders
+LIMIT 5;
+```
+Can I copy and paste the pgAdmin4 table and convert it to markdown? Yes [tableconvert](https://tableconvert.com/) is excellent. 
+
+```
+| "order_id" | "customer_id" | "employee_id" | "order_date" | "required_date" | "shipped_date" | "ship_via" | "freight" | "ship_name"                 | "ship_address"         | "ship_city"      | "ship_region" | "ship_postal_code" | "ship_country" |
+|------------|---------------|---------------|--------------|-----------------|----------------|------------|-----------|-----------------------------|------------------------|------------------|---------------|--------------------|----------------|
+| 10248      | "VINET"       | 5             | "1996-07-04" | "1996-08-01"    | "1996-07-16"   | 3          | 32.38     | "Vins et alcools Chevalier" | "59 rue de l'Abbaye"   | "Reims"          |               | "51100"            | "France"       |
+| 10249      | "TOMSP"       | 6             | "1996-07-05" | "1996-08-16"    | "1996-07-10"   | 1          | 11.61     | "Toms Spezialitäten"        | "Luisenstr. 48"        | "Münster"        |               | "44087"            | "Germany"      |
+| 10250      | "HANAR"       | 4             | "1996-07-08" | "1996-08-05"    | "1996-07-12"   | 2          | 65.83     | "Hanari Carnes"             | "Rua do Paço, 67"      | "Rio de Janeiro" | "RJ"          | "05454-876"        | "Brazil"       |
+| 10251      | "VICTE"       | 3             | "1996-07-08" | "1996-08-05"    | "1996-07-15"   | 1          | 41.34     | "Victuailles en stock"      | "2, rue du Commerce"   | "Lyon"           |               | "69004"            | "France"       |
+| 10252      | "SUPRD"       | 4             | "1996-07-09" | "1996-08-06"    | "1996-07-11"   | 2          | 51.3      | "Suprêmes délices"          | "Boulevard Tirou, 255" | "Charleroi"      |               | "B-6000"           | "Belgium"      |
+```
+I like the third row featuring the Brazilian customer who has $65.83 in freight charges. I wonder what they bought?
+
+
+
+
+
+

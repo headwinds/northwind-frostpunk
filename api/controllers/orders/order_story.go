@@ -1,4 +1,4 @@
-package customer_journey
+package orders
 
 import (
 	"fmt"
@@ -35,12 +35,26 @@ type OrderStatus struct {
 }
 
 /*
-I want to tell a story about the order and show how 
-the order's status can change over time. 
+I want to tell a daily data story simulating customers purchasing an average of $50/day.
+Eacy day new events will occur which will change the status of the order and impact sales.
+This story will take place over 5 days.
 */
 
+type Day struct {
+    Number int
+	TotalSales float64
+	TotalReturns float64
+	TotalFailedOrders int
+	TotalSuccessfulOrders int
+	TotalUniqueCustomers int
+}
 
-func Order() string { 
+type Days struct {
+	Days []Day
+}
+
+
+func AdvanceDay() string { 
 	message := story()
 	return message;
 }
