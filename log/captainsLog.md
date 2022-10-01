@@ -580,6 +580,136 @@ Can I copy and paste the pgAdmin4 table and convert it to markdown? Yes [tableco
 ```
 I like the third row featuring the Brazilian customer who has $65.83 in freight charges. I wonder what they bought?
 
+The customer id is HANAR and the order id is 10250
+
+What is the customer's name?
+
+```
+SELECT C.customer_id, C.contact_name, C.city
+FROM customers AS C
+WHERE customer_id = 'HANAR';
+```
+
+Mario Pontes, Accounting Manager from Rio de Janeiro
+
+What did this customer buy?
+
+```
+SELECT OD.order_id, OD.product_id, OD.quantity 
+FROM order_details AS OD
+WHERE order_id = 10250;
+```
+
+```
+SELECT O.order_id, O.order_date, O.shipped_date, O.freight, O.ship_name 
+FROM orders AS O
+WHERE order_id = 10250;
+
+```
+
+Order 10250 was ordered on 1996-07-08 and shipped on 1996-07-12 via Hanari Carnes for $65.83 in freight charges. 
+
+I will need to write a join to get the product names
+
+```
+SELECT C.contact_name 
+      ,ODE.order_id
+	    ,PRO.product_name
+	    ,ODE.quantity
+	    ,ODE.unit_price
+  FROM order_details AS ODE
+  JOIN orders AS ORD
+    ON ORD.order_id = ODE.order_id
+  JOIN customers AS C
+    ON ORD.customer_id = C.customer_id
+  JOIN products AS PRO
+    ON PRO.product_id = ODE.product_id
+ WHERE ODE.order_id = 10250
+ ORDER BY ODE.order_id ASC; 
+```
+
+Now, I need to use this query as a sub query so that I create a final total for the products.
+
+This is a simple way to start considering sub queries. We can repeat the above result set but as sub query.
+
+```
+SELECT * 
+FROM (SELECT C.contact_name 
+       ,ODE.order_id
+	   ,PRO.product_name
+	   ,ODE.quantity
+	   ,ODE.unit_price
+  FROM order_details AS ODE
+  JOIN orders AS ORD
+    ON ORD.order_id = ODE.order_id
+  JOIN customers AS C
+    ON ORD.customer_id = C.customer_id
+  JOIN products AS PRO
+    ON PRO.product_id = ODE.product_id
+ WHERE ODE.order_id = 10250
+ ORDER BY ODE.order_id ASC) as CO;
+```
+
+You will see the CO (our new CustomerOrder table) has the same result as the sub query. But I want to aggregate the data and sum the total of unit price multiplied against the quantity. 
+
+SELECT (CO.customer as name) 
+FROM (SELECT C.contact_name 
+       ,ODE.order_id
+	   ,PRO.product_name
+	   ,ODE.quantity
+	   ,ODE.unit_price
+  FROM order_details AS ODE
+  JOIN orders AS ORD
+    ON ORD.order_id = ODE.order_id
+  JOIN customers AS C
+    ON ORD.customer_id = C.customer_id
+  JOIN products AS PRO
+    ON PRO.product_id = ODE.product_id
+ WHERE ODE.order_id = 10250
+ ORDER BY ODE.order_id ASC) as CO;
+
+
+Can I join the customer and order tables to produce a record?
+
+https://www.sisense.com/blog/how-to-format-numbers-as-currency-in-postgres-mysql-and-redshift/
+https://database.guide/how-to-format-numbers-as-currency-in-postgresql/
+
+cannot cast type real to money!
+
+```
+  cast(to_char(sum(CO.unit_price * CO.quantity),'L99D99') as money) as total
+```
+
+ERROR:  invalid input syntax for type money: "$ ##.##"
+
+If I remove the quantity I get $66.90 with only the unit price. 
+
+I had the wrong format! Since my total will be over $100, I needed a larger number format like 'L999G999D99'
+
+```
+SELECT CO.contact_name AS name,
+	   cast(to_char(sum(CO.unit_price * CO.quantity),'L999G999D99') as money) as total
+FROM (SELECT C.contact_name 
+       ,ODE.order_id
+	   ,PRO.product_name
+	   ,ODE.quantity
+	   ,ODE.unit_price
+  FROM order_details AS ODE
+  JOIN orders AS ORD
+    ON ORD.order_id = ODE.order_id
+  JOIN customers AS C
+    ON ORD.customer_id = C.customer_id
+  JOIN products AS PRO
+    ON PRO.product_id = ODE.product_id
+ WHERE ODE.order_id = 10250
+ ORDER BY ODE.order_id ASC) as CO
+ GROUP BY CO.contact_name; 
+````
+Now I see the desired result:
+```
+"Mario Pontes"	"$1,813.00"
+``
+Stretch goal: instead of sub query, could I could the same thing with a CTE?
 
 
 
