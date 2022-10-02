@@ -688,6 +688,7 @@ I had the wrong format! Since my total will be over $100, I needed a larger numb
 
 ```
 SELECT CO.contact_name AS name,
+     string_agg(CO.product_name, ', ') AS product_list,
 	   cast(to_char(sum(CO.unit_price * CO.quantity),'L999G999D99') as money) as total
 FROM (SELECT C.contact_name 
        ,ODE.order_id
@@ -707,10 +708,44 @@ FROM (SELECT C.contact_name
 ````
 Now I see the desired result:
 ```
-"Mario Pontes"	"$1,813.00"
+Mario Pontes purchased a $1,813.00 of products including Jack's New England Clam Chowder, Manjimup Dried Apples, and Louisiana Fiery Hot Pepper Sauce.
 ``
-Stretch goal: instead of sub query, could I could the same thing with a CTE?
+Stretch goal: instead of sub query, could I could the same thing with a [CTE](https://learnsql.com/blog/sql-subquery-cte-difference/)?
 
+That is easy enough. All I had to do was reposition the sub query.
+
+```
+/*
+creates a table with one customer and shows the products they ordered.
+The table will feature one product per row
+*/
+
+WITH CO AS (
+	SELECT C.contact_name 
+		   ,ODE.order_id
+		   ,PRO.product_name
+		   ,ODE.quantity
+		   ,ODE.unit_price
+	  FROM order_details AS ODE
+	  JOIN orders AS ORD
+		ON ORD.order_id = ODE.order_id
+	  JOIN customers AS C
+		ON ORD.customer_id = C.customer_id
+	  JOIN products AS PRO
+		ON PRO.product_id = ODE.product_id
+	 WHERE ODE.order_id = 10250
+	 ORDER BY ODE.order_id ASC)
+
+-- review the customer's total order and their product list in one row 
+
+SELECT CO.contact_name AS name,
+	   string_agg(CO.product_name, ', ') AS product_list,
+	   cast(to_char(sum(CO.unit_price * CO.quantity),'L999G999D99') as money) as total
+FROM CO
+ GROUP BY CO.contact_name;  
+```
+
+I like this CTE approach as it feels more natural as to how I built it. I started with the query to reduce my table then used to the second to query to reduce it further. The comments are also useful to organize and document the SQL. 
 
 
 
