@@ -5,6 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/headwinds/northwind-frostpunk/api/controllers/orders"
+	"golang.org/x/exp/slices"
 )
 
 type HttpResp struct{
@@ -20,7 +23,7 @@ type CustomerJourney struct{
 type ResponseBody struct{
     CustomJournies []CustomerJourney
 	Message string
-	FilteredOrderStatusList []OrderStatus
+	FilteredOrderStatusList []orders.OrderStatus
 }
 
 type DatabaseHandler struct {
@@ -37,6 +40,16 @@ func CustomerJourneyController(db *sql.DB) *DatabaseHandler {
 	return &DatabaseHandler{
 		db: db,
 	}
+}
+
+func getStatusDescriptions(id orders.Status) string {
+	orderStatusList := orders.GetOrderStatusList()
+
+	// finds the index in the list of the order status we are interested in
+	orderStatusIdx := slices.IndexFunc(orderStatusList, func(orderStatus orders.OrderStatus) bool { return orderStatus.Id == id })
+	orderStatus := orderStatusList[orderStatusIdx]
+
+	return orderStatus.Description;
 }
 
 func (h *DatabaseHandler) GetCustomerJournies(w http.ResponseWriter, r *http.Request){
@@ -58,7 +71,7 @@ func (h *DatabaseHandler) GetCustomerJournies(w http.ResponseWriter, r *http.Req
 		customJournies = append(customJournies, customerJourney)
 	}
 
-	message := GetStatusDescriptions(ACK_RECEIVED_FROM_3PL)
+	message := getStatusDescriptions(orders.ACK_RECEIVED_FROM_3PL)
 	fmt.Println("customer journey message: ", message)
 
 	responseBody := ResponseBody{ CustomJournies: customJournies, Message: message }

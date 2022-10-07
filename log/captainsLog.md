@@ -445,20 +445,18 @@ nano .zshrc
 
 At the bottom of the file, I added
 
+```
 export GOPATH=/Users/braflow/.gvm/gos/go1.19.1/bin/go
 export PATH=$PATH:$GOPATH/bin
+```
 
-Then save & exit nano via:
-
-Ctrl o 
-Ctrl x
+Then save & exit nano via: Ctrl o & Ctrl x
 
 Now when I try 
 
 echo $GOPATH 
 
-I should see 
-/Users/braflow/.gvm/gos/go1.19.1/bin/go
+I should see `/Users/braflow/.gvm/gos/go1.19.1/bin/go`
 
 If not, you may to restart the terminal - obviously your user path will be different than mine.
 
@@ -746,6 +744,40 @@ FROM CO
 ```
 
 I like this CTE approach as it feels more natural as to how I built it. I started with the query to reduce my table then used to the second to query to reduce it further. The comments are also useful to organize and document the SQL. 
+
+The version 1.18 of [Golang introduces generics](https://itnext.io/generic-map-filter-and-reduce-in-go-3845781a591c) and several functions - `golang.org/x/exp/slices` - found in the functional programming so I may not need a helper library like [lo](https://github.com/samber/lo).
+
+```
+import (
+  "golang.org/x/exp/slices"
+)
+
+// we can use slices to search through an array and find the struct by its key
+idx := slices.IndexFunc(countCustomerRows, func(c CountCustomerRow) bool { return c.Key == "key1" })
+```
+
+I think I prefer the API of `lo` though, and prepared a [go playground example for it](https://github.com/samber/lo/issues/226) and enjoyed collaborating with Sambre to make it better!
+
+# Day 6
+
+I'll regain focus and return to interacting with the API via the CLI
+
+I can run the advanceDay command like so: 
+
+```
+go run . advanceDay
+```
+
+But really I should start a command that's starts the experience so I've developed this:
+
+```
+go run . startGame 
+```
+
+With this endpoint, I can start writing the game but will leave that for another day. 
+
+
+
 
 
 

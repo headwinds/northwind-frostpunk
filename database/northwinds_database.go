@@ -36,7 +36,7 @@ func connectToPostgres() *sql.DB {
     panic(err)
   }
 
-  fmt.Println("Successfully connected!")
+  fmt.Println("Successfully connected to the Northwind database")
 
   return db
 }

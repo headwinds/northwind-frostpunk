@@ -68,7 +68,7 @@ func story() string {
 	return message
 }
 
-func getOrderStatusList() []OrderStatus {
+func GetOrderStatusList() []OrderStatus {
 	var order_status_list []OrderStatus
 
 	// 1
@@ -134,7 +134,7 @@ func getOrderStatusList() []OrderStatus {
 
 func GetStatusDescriptions( Id Status) string {
 	
-	order_status_list := getOrderStatusList()
+	order_status_list := GetOrderStatusList()
 
 	var orderStatus OrderStatus
 	var searchFor = Id

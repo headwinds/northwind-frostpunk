@@ -1,6 +1,5 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -14,12 +13,11 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "cli",
 	Short: "Explore the Northwind database with a Frostpunk twist",
-	Long: `Coming soon: A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Long: `From this CLI, we can interact with the Northwind-Frostpunk API and explore the various flows including:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+1. Products
+2. Orders
+3. Customer Journey`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
