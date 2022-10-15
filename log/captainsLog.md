@@ -776,7 +776,86 @@ go run . startGame
 
 With this endpoint, I can start writing the game but will leave that for another day. 
 
+# Day 7
 
+As I grow more confident with my new sub query SQL skills, I can start to apply it to real world problems. I wanted to write a query in BigQuery that would mine our daily Java logs. 
+
+First, I setup a data sink from Logs Explorer to BigQuery which would collect the logs for successful and failed orders. In BigQuery, I had three query tabs open. Before writing this final query, I wrote the success and fail queries in separate tabs, and then combined them in the third tab.  
+
+I'll share the query removing any sensitive content: 
+
+```
+WITH 
+  success_revenue AS (
+  SELECT
+   '1' AS id,
+    CAST(
+      SUM(ROUND(CAST(REGEXP_SUBSTR(jsonPayload.message, "success-find-money-pattern-here(.*?[^]]*)") AS FLOAT64))) AS STRING FORMAT '$999,999.99'
+    ) AS success_total,
+    COUNT(ROUND(CAST(REGEXP_SUBSTR(jsonPayload.message, "success-find-money-pattern-here(.*?[^]]*)") AS FLOAT64))) AS success_count
+  FROM
+    `DATA-SINK-TABLE-HERE`
+  WHERE (jsonPayload.message LIKE '%success-string-pattern-here%')
+  ),
+
+  failed_revenue AS (
+  SELECT
+   '1' AS id,
+      CAST(
+        SUM(ROUND(CAST(REGEXP_SUBSTR(jsonPayload.message, "fail-find-money-pattern-here(.*?[^]]*)") AS FLOAT64),2)) AS STRING FORMAT '$999,999.99'
+      ) AS Failed_Total,
+    COUNT(ROUND(CAST(REGEXP_SUBSTR(jsonPayload.message, "fail-find-money-pattern-here(.*?[^]]*)") AS FLOAT64),2)) AS failed_Count
+  FROM
+    `DATA-SINK-TABLE-HERE`
+  WHERE NOT (jsonPayload.message LIKE '%success-string-pattern-here%')),
+
+  all_revenue
+    as
+    (
+      select  success_revenue.id,  
+              success_revenue.success_total,
+              success_revenue.success_count,
+              failed_revenue.failed_total,
+              failed_revenue.failed_count
+      from success_revenue
+      JOIN failed_revenue ON success_revenue.id=failed_revenue.id
+    )
+
+Select * from all_revenue
+```
+I used a regex to pull the totals from each string and where clause to separate the success from the failed orders.  I also counted the strings to get a sense of frequency. This query produced a single row with both success and failed totals and counts. 
+
+I had some help from these blog posts: [write better CTE](https://towardsdatascience.com/common-table-expressions-5-tips-for-data-scientists-to-write-better-sql-bf3547dcde3e), [multiple cte](https://learnsql.com/blog/how-to-use-two-ctes-in-sql/), and [BiqQuery CTE](https://popsql.com/learn-sql/bigquery/how-to-write-a-common-table-expression-in-bigquery). How cool is [popsql](https://popsql.com/)?!
+
+Similiar to importing class, I would hope its possible to break CTEs out into their own files for re-use and to isolate their value, and then import that work without having to maintain one large file but I don't see that [documented](https://www.postgresql.org/docs/13/queries-with.html) nor any posts about it so far. I'll continue the search while tackling [Recursive CTE](https://www.fusionbox.com/blog/detail/graph-algorithms-in-a-database-recursive-ctes-and-topological-sort-with-postgres/620/) [Graph Queries](https://medium.com/white-prompt-blog/implementing-graph-queries-in-a-relational-database-7842b8075ca8) next.
+
+# Day 8 
+
+In order to get to Graph theory, I need to start the graph - start the game! The user begins at the first node in the graph, and then will make decisions to grow it so that I can traverse it with SQL and see what they did along the way.
+
+The [Interactive](https://dev.to/divrhino/building-an-interactive-cli-app-with-go-cobra-promptui-346n) [CLI](https://www.thorsten-hans.com/lets-build-a-cli-in-go-with-cobra/) needs to provide options so the user can simply use their arrows keys to select their choice.
+
+
+So northwind-frostpunk is a bit much to type of each to run the CLI. I want something shorter like battery since I've just decided this is a game about the birth of lithium mining in Canada. Our miners will be using our Northwind database to purchase supplies.  
+
+Once I updated the battery command, then I can build the project 
+
+```
+go build . 
+```
+This produced a battery.go file in my pkg > battery folder but I can't use the `battery` command just yet...
+
+I want to be able to type:
+
+```
+battery startGame
+```
+
+which doesn't work yet so I'll use:
+
+```
+go run . startGame 
+```
 
 
 
