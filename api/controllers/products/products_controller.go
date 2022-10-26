@@ -21,7 +21,6 @@ type Product struct{
     UnitsInStock	int  	`json:"units_in_stock"`
 }
 
-
 type DatabaseHandler struct {
 	db *sql.DB
 }

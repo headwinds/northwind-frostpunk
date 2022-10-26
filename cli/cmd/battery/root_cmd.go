@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"reflect"
 
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -20,11 +21,25 @@ var rootCmd = &cobra.Command{
 
 1. New Game
 2. Load Game (not implemented)
-3. Exit`,
+3. Credits
+4. Exit`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
-        createPrompt()
+        option := createPrompt()
+        switch(option) {
+            case "1":
+                fmt.Println("New Game")
+                startGame() // my IDE underlines this line in red but because it's the same folder it actually works! still...wish it didn't do that - feels like something it wrong
+            case "2":
+                fmt.Println("Load Game")
+            case "3":
+                fmt.Println("Credits")
+            case "4":
+                fmt.Println("Exit")
+            default:    
+                fmt.Println("Please provide a valid option.")
+        }
     },
 }
 
@@ -42,16 +57,13 @@ type promptContent struct {
     label    string
 }
 
-/* generic here - result could be a string, int, etc. */
-
+// an experiment with Generics so that I could re-used ValidOptions and create multiple types
+// for instance, validOptions could be a collection of strings or ints
 type ValidOptions[T comparable] struct {
 	vals []T
 }
 
-type CustomType string
-
-// not exactly what I want here... v should be T not string?!
-func validateOption[T comparable](v CustomType) bool {
+func validateOption[T comparable](v string) bool {
 
     vals := []string{"1", "2", "3", "4"}
     validOptions := ValidOptions[string]{vals}
@@ -89,10 +101,12 @@ func promptGetInput(pc promptContent) string {
 
     result, err := prompt.Run()
 
-    //isValid := validateOption(string(result))
+    // this is an unnecessary check but if you are new to golang it's interesting to know that
+    // input is always a string where the result is 6 or apple
+    isValid := validateOption[string](result) && reflect.TypeOf(result) == reflect.TypeOf("string")
 
-    // validate the input
-    if (result == "1" || result == "2" || result == "3" || result == "4") {
+    // validate the input 
+    if (isValid) {
         fmt.Printf("You selected: %s\n", result)    
     } else {
         fmt.Println("Please provide a valid option.")
@@ -104,9 +118,7 @@ func promptGetInput(pc promptContent) string {
         os.Exit(1)
     } 
 
- 
-
-    return result
+     return result
 }
 
 func createPrompt() string {
@@ -115,7 +127,7 @@ func createPrompt() string {
     fmt.Println("1. New Game")
     fmt.Println("2. Load Game")
     fmt.Println("3. Credits")
-    fmt.Println("4. Quit")
+    fmt.Println("4. Exit")
     fmt.Println("\n")
 
     wordPromptContent := promptContent{

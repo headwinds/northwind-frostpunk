@@ -4,9 +4,10 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package battery
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-    "strings"
+	"strings"
 
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -18,11 +19,11 @@ var startGameCmd = &cobra.Command{
     Short: "start game",
     Long:  `This command will start the game! Can you survive the winter?`,
     Run: func(cmd *cobra.Command, args []string) {
-        promptStartGameChoice()
+        PromptStartGameChoice()
     },
 }
 
-func callStartGame(){
+func startGame(){
     URL := "http://localhost:8080/game/start"
 
     // Get the data
@@ -33,19 +34,22 @@ func callStartGame(){
     response.Header.Add("Accept", "application/json")
     defer response.Body.Close()
 
-    if response.StatusCode == 200 {
-
-         //var generic map[string]interface{}
-         //err = json.NewDecoder(response.Body).Decode(&generic)            
-        fmt.Println("Here comes winter!")
-        promptCustom()
+	if response.StatusCode == 200 {
+        //var generic map[string]interface{}
+		var generic map[string]interface{}
+        err = json.NewDecoder(response.Body).Decode(&generic)
+        if(err != nil){
+            fmt.Println(err)
+        }
+        fmt.Println("Report: ", generic)
     } else {
         fmt.Println("Error: ",  response)
     }
 
 }
 
-func promptStartGameChoice() {
+func PromptStartGameChoice() {
+
     prompt := promptui.Select{
 		Label: "Select Day",
 		Items: []string{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
@@ -62,7 +66,7 @@ func promptStartGameChoice() {
 	fmt.Printf("You choose %q\n", result)
 
     if result == "Monday" {
-        callStartGame()
+        startGame()
     }
 }
 

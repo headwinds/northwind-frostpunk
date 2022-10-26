@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
-    "github.com/manifoldco/promptui"
 )
 
 // advanceDayCmd represents the advanceDay command
@@ -26,35 +26,38 @@ var advanceDayCmd = &cobra.Command{
             argName = args[0]
         }
         */
-        promptChoice()
+        PromptAdvanceDayChoice()
 
 		
     },
 }
 
-func connect(){
+func getProducts(){
     URL := "http://localhost:8080/products"
 
-        //fmt.Println("This is the argument that I passed: " + argName)
+    //fmt.Println("This is the argument that I passed: " + argName)
 
-        // Get the data
-        response, err := http.Get(URL)
-        if err != nil {
+    // Get the data
+    response, err := http.Get(URL)
+    if err != nil {
+        fmt.Println(err)
+    }
+    response.Header.Add("Accept", "application/json")
+    defer response.Body.Close()
+
+    if response.StatusCode == 200 {
+        var generic map[string]interface{}
+        err = json.NewDecoder(response.Body).Decode(&generic)
+        if(err != nil){
             fmt.Println(err)
         }
-		response.Header.Add("Accept", "application/json")
-        defer response.Body.Close()
-
-        if response.StatusCode == 200 {
-			var generic map[string]interface{}
-			err = json.NewDecoder(response.Body).Decode(&generic)
-            fmt.Println("Report: ", generic)
-        } else {
-            fmt.Println("Error: ",  response)
-        }
+        fmt.Println("Report: ", generic)
+    } else {
+        fmt.Println("Error: ",  response)
+    }
 }
 
-func promptChoice() {
+func PromptAdvanceDayChoice() {
     prompt := promptui.Select{
 		Label: "Select Day",
 		Items: []string{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
@@ -71,7 +74,7 @@ func promptChoice() {
 	fmt.Printf("You choose %q\n", result)
 
     if result == "Monday" {
-        connect()
+        getProducts()
     }
 }
 

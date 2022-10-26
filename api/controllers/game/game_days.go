@@ -45,7 +45,7 @@ func (gameDays *GameDays) count() int {
 
 var gameState = &GameState{}
 */
-var gameState GameState = GameState{1}
+var gameState GameState = GameState{0} // index must start at 0
 
 
 /*
@@ -60,10 +60,14 @@ func GetGameDay(gameDayIndex int) GameDay {
 
 	gameDay1Description := "You are preparing for the launch of your expidition to Akelton, the new lithium mine in northern Ontario. The dropship is ready and waitng for your arrival. You have already secured your ticket, and now need to collect supplies from the online store. You have 10 minutes to get what you need before the dropship leaves."
 
-	gameDay := GameDay{1, gameDay1Description, 0, 10}
+	gameDay1 := GameDay{1, gameDay1Description, 0, 10}
 
-	gameDays := []GameDay{gameDay}
+	gameDay2Description := "You have arrived at the dropship and are ready to board. You have 10 minutes to get on board before the dropship leaves."
+	gameDay2 := GameDay{2, gameDay2Description, -5, 10}
+
+	gameDays := []GameDay{gameDay1, gameDay2}
 	
+	// should have some validation here and panic if incorrect index
 	return gameDays[gameDayIndex]
 }
 

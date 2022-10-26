@@ -2,9 +2,16 @@ package game
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
+
+type HttpResp struct{
+    Status      int         `json:"status"`
+    Description string      `json:"description"`
+    Body        interface{} `json:"body"`
+}
 
 type DatabaseHandler struct {
 	db *sql.DB
@@ -21,9 +28,7 @@ func (h *DatabaseHandler) StartGame(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("DB Error")
 	}
 
-	w.Write([]byte("Hello, World"))
-
+	w.Header().Set("Content-Type", "application/json")
 	gameDay := GameDayManager()
-
-	fmt.Println(gameDay.Description)
+    json.NewEncoder(w).Encode(HttpResp{Status: 200, Body: gameDay})
 }
