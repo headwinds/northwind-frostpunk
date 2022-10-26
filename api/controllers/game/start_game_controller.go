@@ -22,4 +22,8 @@ func (h *DatabaseHandler) StartGame(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte("Hello, World"))
+
+	gameDay := GameDayManager()
+
+	fmt.Println(gameDay.Description)
 }

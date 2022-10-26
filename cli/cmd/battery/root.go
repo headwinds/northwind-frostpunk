@@ -42,6 +42,30 @@ type promptContent struct {
     label    string
 }
 
+/* generic here - result could be a string, int, etc. */
+
+type ValidOptions[T comparable] struct {
+	vals []T
+}
+
+type CustomType string
+
+// not exactly what I want here... v should be T not string?!
+func validateOption[T comparable](v CustomType) bool {
+
+    vals := []string{"1", "2", "3", "4"}
+    validOptions := ValidOptions[string]{vals}
+
+    for _, val := range validOptions.vals {
+        if string(v) == val {
+            return true
+        }
+    }
+
+    return false;
+}
+
+
 func promptGetInput(pc promptContent) string {
     validate := func(input string) error {
         if len(input) <= 0 {
@@ -64,18 +88,35 @@ func promptGetInput(pc promptContent) string {
     }
 
     result, err := prompt.Run()
+
+    //isValid := validateOption(string(result))
+
+    // validate the input
+    if (result == "1" || result == "2" || result == "3" || result == "4") {
+        fmt.Printf("You selected: %s\n", result)    
+    } else {
+        fmt.Println("Please provide a valid option.")
+        promptGetInput(pc)
+    }
+
     if err != nil {
         fmt.Printf("Prompt failed %v\n", err)
         os.Exit(1)
-    }
+    } 
 
-    fmt.Printf("Input: %s\n", result)
+ 
 
     return result
 }
 
 func createPrompt() string {
-	fmt.Printf("Welcome to Northwind Frostpunk!")
+	fmt.Println("\n\nNorthwind Frostpunk v0.0.1\n\n")
+
+    fmt.Println("1. New Game")
+    fmt.Println("2. Load Game")
+    fmt.Println("3. Credits")
+    fmt.Println("4. Quit")
+    fmt.Println("\n")
 
     wordPromptContent := promptContent{
         "Please provide a number.",

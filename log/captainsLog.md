@@ -857,7 +857,55 @@ which doesn't work yet so I'll use:
 go run . startGame 
 ```
 
+# Day 9
+
+fmt.Println("Before sleep the time is:", time.Now().Unix())     // Before sleep the time is: 1257894000
+    time.Sleep(2 * time.Second)                                     // pauses execution for 2 seconds
+    fmt.Println("After sleep the time is:", time.Now().Unix())  
+
+[sleep in golang](https://golangdocs.com/sleep-function-in-golang)
+
+## API Security
+
+https://www.rapid7.com/blog/post/2016/07/13/quick-security-wins-in-golang/
+
+https://semitechnologies.teamtailor.com/jobs/1898110-software-engineer-golang
+
+
+## Game State & Singleton 
+
+https://stackoverflow.com/questions/26170409/storing-state-in-go
+
+https://medium.com/golang-issue/how-singleton-pattern-works-with-golang-2fdd61cd5a7f
+
+https://www.educba.com/golang-global-variables/ 
+
+## Generics - 
+
+I want to pass in either string or int for user input. The user is supposed to enter a int but what happens they enter a string?!
+
+https://bitfieldconsulting.com/golang/type-parameters
+
+https://www.digitalocean.com/community/tutorials/how-to-use-generics-in-go
+
+
+```
+func validateOption[T any](v T) bool {
+```
+
+```
+func validateOption[T comparable](v T) bool {
+```
+
+
+https://gotipplay.golang.org/p/s__HIHQ8Etc
+
+invalid operation: val == "C" (mismatched types T and untyped string)
 
 
 
 
+
+https://medium.com/geekculture/generics-in-go-5a36b1f978bc
+
+https://stackoverflow.com/questions/68053957/go-with-generics-type-parameter-t-is-not-comparable-with
