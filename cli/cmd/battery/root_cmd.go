@@ -29,7 +29,7 @@ var rootCmd = &cobra.Command{
         option := createPrompt()
         switch(option) {
             case "1":
-                fmt.Println("New Game")
+                fmt.Println("Start Game")
                 startGame() // my IDE underlines this line in red but because it's the same folder it actually works! still...wish it didn't do that - feels like something it wrong
             case "2":
                 fmt.Println("Load Game")
@@ -107,7 +107,7 @@ func promptGetInput(pc promptContent) string {
 
     // validate the input 
     if (isValid) {
-        fmt.Printf("You selected: %s\n", result)    
+       //fmt.Printf("You selected: %s\n", result)    
     } else {
         fmt.Println("Please provide a valid option.")
         promptGetInput(pc)

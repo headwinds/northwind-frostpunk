@@ -911,3 +911,26 @@ https://medium.com/geekculture/generics-in-go-5a36b1f978bc
 https://stackoverflow.com/questions/68053957/go-with-generics-type-parameter-t-is-not-comparable-with
 
 I used the [reflect](https://freshman.tech/snippets/go/check-type-of-value/) package to determine that all input is a string whether the user types 6 or apple.
+
+https://www.sohamkamani.com/golang/json/
+
+https://ahmet.im/blog/golang-json-decoder-pitfalls/
+
+https://stackoverflow.com/questions/17156371/how-to-get-json-response-from-http-get
+
+
+valid json 
+```
+{"Name": "Ed"}
+```
+This is a JSON stream not valid json!
+```
+{"Name": "Ed"}{"Name": "Sam"}{"Name": "Bob"}
+```
+valid json
+```
+[{"Name": "Ed"},{"Name": "Sam"},{"Name": "Bob"}]
+```
+https://jsonlint.com/
+
+https://socketloop.com/tutorials/golang-unmarshal-json-from-http-response

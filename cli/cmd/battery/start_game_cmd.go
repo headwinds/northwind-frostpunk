@@ -6,10 +6,11 @@ package battery
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
-	"strings"
+	"io/ioutil"
 
-	"github.com/manifoldco/promptui"
+	//"io/ioutil"
+	"net/http"
+
 	"github.com/spf13/cobra"
 )
 
@@ -19,8 +20,45 @@ var startGameCmd = &cobra.Command{
     Short: "start game",
     Long:  `This command will start the game! Can you survive the winter?`,
     Run: func(cmd *cobra.Command, args []string) {
-        PromptStartGameChoice()
+        startGame()
     },
+}
+
+// should considering importing this struct from the API to make it more DRY
+// but not sure how to import across projects?! Perhaps its not a good idea?!
+// since the CLI is meant to be a separate project from the API
+// "github.com/headwinds/northwind-frostpunk/api/controllers/game" and use it game.GameDay
+
+type GameDay struct {
+	GameDayNumber 			int         `json:"GameDayNumber,omitempty"`
+	Description   			string      `json:"Description,omitempty"`
+	TemparatureCelius   	int         `json:"TemparatureCelius,omitempty"`
+	MinutesToComplete 		int         `json:"MinutesToComplete,omitempty"`
+	Choices					[]string    `json:"Choices,omitempty"`    
+}
+
+type HttpResp struct{
+    Status      int         `json:"status"`
+    Description string      `json:"description"`
+    Body        GameDay     `json:"body"`
+}
+
+
+
+func displayGameDay(gameDay GameDay) {
+    fmt.Println("\n")
+    fmt.Println("Day ", gameDay.GameDayNumber)
+    fmt.Println("Temparature ", gameDay.TemparatureCelius)
+    fmt.Printf("\n%s", gameDay.Description)
+    fmt.Println("\n")
+    fmt.Println("What would you like to do?")
+    fmt.Println("\n")
+    //fmt.Println("Minutes to Complete: ", gameDay.MinutesToComplete)
+    // iterate over choices
+    for i, choice := range gameDay.Choices { 
+        fmt.Println(i, choice)
+    }
+
 }
 
 func startGame(){
@@ -33,99 +71,41 @@ func startGame(){
     }
     response.Header.Add("Accept", "application/json")
     defer response.Body.Close()
-
+    /*
 	if response.StatusCode == 200 {
-        //var generic map[string]interface{}
-		var generic map[string]interface{}
-        err = json.NewDecoder(response.Body).Decode(&generic)
+
+        body, err := ioutil.ReadAll(response.Body)
         if(err != nil){
             fmt.Println(err)
         }
-        fmt.Println("Report: ", generic)
+        var gameDay GameDay
+        json.Unmarshal(body, &gameDay)
+
+        displayGameDay(gameDay);
+
     } else {
         fmt.Println("Error: ",  response)
+    }*/
+    // read json http response
+    jsonDataFromHttp, err := ioutil.ReadAll(response.Body)
+
+    if err != nil {
+            panic(err)
     }
 
-}
 
-func PromptStartGameChoice() {
+    var jsonData HttpResp
 
-    prompt := promptui.Select{
-		Label: "Select Day",
-		Items: []string{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-			"Saturday", "Sunday"},
-	}
+    err = json.Unmarshal([]byte(jsonDataFromHttp), &jsonData) // here!
 
-	_, result, err := prompt.Run()
-
-	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		return
-	}
-
-	fmt.Printf("You choose %q\n", result)
-
-    if result == "Monday" {
-        startGame()
+    if err != nil {
+            panic(err)
     }
-}
 
-type pepper struct {
-	Name     string
-	HeatUnit int
-	Peppers  int
-}
-
-func promptCustom(){
-    peppers := []pepper{
-		{Name: "Bell Pepper", HeatUnit: 0, Peppers: 0},
-		{Name: "Banana Pepper", HeatUnit: 100, Peppers: 1},
-		{Name: "Poblano", HeatUnit: 1000, Peppers: 2},
-		{Name: "Jalapeño", HeatUnit: 3500, Peppers: 3},
-		{Name: "Aleppo", HeatUnit: 10000, Peppers: 4},
-		{Name: "Tabasco", HeatUnit: 30000, Peppers: 5},
-		{Name: "Malagueta", HeatUnit: 50000, Peppers: 6},
-		{Name: "Habanero", HeatUnit: 100000, Peppers: 7},
-		{Name: "Red Savina Habanero", HeatUnit: 350000, Peppers: 8},
-		{Name: "Dragon’s Breath", HeatUnit: 855000, Peppers: 9},
-	}
-
-	templates := &promptui.SelectTemplates{
-		Label:    "{{ . }}?",
-		Active:   "\U0001F336 {{ .Name | cyan }} ({{ .HeatUnit | red }})",
-		Inactive: "  {{ .Name | cyan }} ({{ .HeatUnit | red }})",
-		Selected: "\U0001F336 {{ .Name | red | cyan }}",
-		Details: `
---------- Pepper ----------
-{{ "Name:" | faint }}	{{ .Name }}
-{{ "Heat Unit:" | faint }}	{{ .HeatUnit }}
-{{ "Peppers:" | faint }}	{{ .Peppers }}`,
-	}
-
-	searcher := func(input string, index int) bool {
-		pepper := peppers[index]
-		name := strings.Replace(strings.ToLower(pepper.Name), " ", "", -1)
-		input = strings.Replace(strings.ToLower(input), " ", "", -1)
-
-		return strings.Contains(name, input)
-	}
-
-	prompt := promptui.Select{
-		Label:     "Spicy Level",
-		Items:     peppers,
-		Templates: templates,
-		Size:      4,
-		Searcher:  searcher,
-	}
-
-	i, _, err := prompt.Run()
-
-	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		return
-	}
-
-	fmt.Printf("You choose number %d: %s\n", i+1, peppers[i].Name)
+    if jsonData.Status == 200 {
+        gameDay := jsonData.Body
+        displayGameDay(gameDay)
+    }
 }
 
 func init() {

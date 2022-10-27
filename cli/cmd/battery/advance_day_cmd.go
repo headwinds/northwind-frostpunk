@@ -27,8 +27,6 @@ var advanceDayCmd = &cobra.Command{
         }
         */
         PromptAdvanceDayChoice()
-
-		
     },
 }
 

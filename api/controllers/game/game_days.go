@@ -5,6 +5,7 @@ type GameDay struct {
 	Description   			string
 	TemparatureCelius   	int
 	MinutesToComplete 		int
+	Choices					[]string
 }
 
 type GameDays struct {
@@ -59,11 +60,12 @@ func GameDayManager() GameDay {
 func GetGameDay(gameDayIndex int) GameDay {
 
 	gameDay1Description := "You are preparing for the launch of your expidition to Akelton, the new lithium mine in northern Ontario. The dropship is ready and waitng for your arrival. You have already secured your ticket, and now need to collect supplies from the online store. You have 10 minutes to get what you need before the dropship leaves."
-
-	gameDay1 := GameDay{1, gameDay1Description, 0, 10}
+	gameDay1Choices := []string{"Buy Supplies", "Skip Supplies"}
+	gameDay1 := GameDay{1, gameDay1Description, 0, 10, gameDay1Choices}
 
 	gameDay2Description := "You have arrived at the dropship and are ready to board. You have 10 minutes to get on board before the dropship leaves."
-	gameDay2 := GameDay{2, gameDay2Description, -5, 10}
+	gameDay2Choices := []string{"Buy Supplies", "Skip Supplies"}
+	gameDay2 := GameDay{2, gameDay2Description, -5, 10, gameDay2Choices}
 
 	gameDays := []GameDay{gameDay1, gameDay2}
 	
