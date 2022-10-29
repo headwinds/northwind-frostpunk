@@ -71,6 +71,10 @@ func (h *DatabaseHandler) GetOrders(w http.ResponseWriter, r *http.Request){
 
 }
 
+func (h *DatabaseHandler) CreateOrder(w http.ResponseWriter, r *http.Request){
+
+}
+
 func (h *DatabaseHandler) SimulateOrders(w http.ResponseWriter, r *http.Request){
 	if err := h.db.Ping(); err != nil {
 		fmt.Println("DB Error")

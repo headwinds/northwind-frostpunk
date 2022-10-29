@@ -5,21 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
+
+	"github.com/headwinds/northwind-frostpunk/api/types"
 
 	_ "github.com/lib/pq"
 )
-
-type HttpResp struct{
-    Status      int         `json:"status"`
-    Description string      `json:"description"`
-    Body        interface{} `json:"body"`
-}
-
-type Product struct{
-    ProductName		string  `json:"product_name"`
-    UnitPrice		float64 `json:"unit_price"`
-    UnitsInStock	int  	`json:"units_in_stock"`
-}
 
 type DatabaseHandler struct {
 	db *sql.DB
@@ -42,14 +33,33 @@ func (h *DatabaseHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("DB Error")
 	}
 
-	var products []Product
-	rows, err := h.db.Query(`SELECT "product_name", "unit_price", "units_in_stock" FROM "products" LIMIT 3`)
+	fmt.Println("GetProducts")
+
+	pg := r.URL.Query().Get("page")
+
+	page, err := strconv.Atoi(pg)
+	if err != nil {
+			page=1
+	}
+
+	iPP := r.URL.Query().Get("itemsPerPage")
+
+	itemsPerPage, err := strconv.Atoi(iPP)
+	if err != nil {
+		itemsPerPage=10
+	}
+
+	limit := int(itemsPerPage)
+	offset := limit * (int(page) - 1)
+
+	var products []types.Product
+	rows, err := h.db.Query(`SELECT "product_name", "unit_price", "units_in_stock" FROM "products" LIMIT ` + strconv.Itoa(limit) + ` OFFSET ` + strconv.Itoa(offset))
 	checkErr(err)
 
 	defer rows.Close()
 	
 	for rows.Next() {
-		var product Product
+		var product types.Product
 	
 		err = rows.Scan(&product.ProductName, &product.UnitPrice, &product.UnitsInStock)
 		checkErr(err)
@@ -58,8 +68,11 @@ func (h *DatabaseHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(HttpResp{Status: 200, Body: products})
+    json.NewEncoder(w).Encode(types.ProductsHttpResp{Status: 200, Description: "Hey headwinds", Body: products})
 
 	checkErr(err)
 
 }
+
+
+

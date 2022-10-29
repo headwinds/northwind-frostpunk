@@ -10,6 +10,9 @@ import (
 
 	//"io/ioutil"
 	"net/http"
+	"net/url"
+
+	"github.com/headwinds/northwind-frostpunk/cli/types"
 
 	"github.com/spf13/cobra"
 )
@@ -43,6 +46,10 @@ type HttpResp struct{
     Body        GameDay     `json:"body"`
 }
 
+// not DRY - I think I need common structs file to import from
+
+
+
 
 
 func displayGameDay(gameDay GameDay) {
@@ -53,46 +60,35 @@ func displayGameDay(gameDay GameDay) {
     fmt.Println("\n")
     fmt.Println("What would you like to do?")
     fmt.Println("\n")
-    //fmt.Println("Minutes to Complete: ", gameDay.MinutesToComplete)
-    // iterate over choices
-    for i, choice := range gameDay.Choices { 
-        fmt.Println(i, choice)
-    }
 
+    decision := PromptGameChoice(gameDay.Choices, "Choose an option")
+
+    fmt.Println("decision: ", decision)
+
+    /*
+    switch(decision) {
+        case "Buy Supplies":
+            nextTurn("1")
+        case "Skip Supplies":
+            nextTurn("2")
+    }*/
+    nextTurn(decision)
 }
 
-func startGame(){
-    URL := "http://localhost:8080/game/start"
-
+func getUrl(url string) HttpResp {
     // Get the data
-    response, err := http.Get(URL)
+    response, err := http.Get(url)
     if err != nil {
         fmt.Println(err)
     }
     response.Header.Add("Accept", "application/json")
     defer response.Body.Close()
-    /*
-	if response.StatusCode == 200 {
 
-        body, err := ioutil.ReadAll(response.Body)
-        if(err != nil){
-            fmt.Println(err)
-        }
-        var gameDay GameDay
-        json.Unmarshal(body, &gameDay)
-
-        displayGameDay(gameDay);
-
-    } else {
-        fmt.Println("Error: ",  response)
-    }*/
-    // read json http response
     jsonDataFromHttp, err := ioutil.ReadAll(response.Body)
 
     if err != nil {
             panic(err)
     }
-
 
     var jsonData HttpResp
 
@@ -102,9 +98,65 @@ func startGame(){
             panic(err)
     }
 
+    return jsonData
+
+}
+
+// this is where I really need generics as the response body is different for each API call
+func getUrlProductsResponse(url string) types.ProductsHttpResp {
+    // Get the data
+    response, err := http.Get(url)
+    if err != nil {
+        fmt.Println(err)
+    }
+    response.Header.Add("Accept", "application/json")
+    defer response.Body.Close()
+
+    fmt.Println("getUrlProductsResponse response.Body: ", response.Body)
+
+    jsonDataFromHttp, err := ioutil.ReadAll(response.Body)
+
+    if err != nil {
+            panic(err)
+    }
+
+    var jsonData types.ProductsHttpResp
+    err = json.Unmarshal([]byte(jsonDataFromHttp), &jsonData) // here!
+
+    if err != nil {
+            panic(err)
+    }
+
+    return jsonData
+
+}
+
+func startGame(){
+    URL := "http://localhost:8080/game/start"
+
+    jsonData := getUrl(URL)
+
     if jsonData.Status == 200 {
         gameDay := jsonData.Body
         displayGameDay(gameDay)
+    }
+}
+
+func nextTurn(decision string){
+    URL := "http://localhost:8080/game/turn/next?decision=" + url.QueryEscape(decision)
+    //URL := "http://localhost:8080/products/view?page=1&limit=10"    
+    jsonData := getUrlProductsResponse(URL)
+
+    if jsonData.Status == 200 {
+        var options []string
+        for _, product := range jsonData.Body {
+            option := fmt.Sprintf("%s - $%v", product.ProductName, product.UnitPrice)
+            options = append(options, option)
+        }
+        // can add search https://medium.com/manifoldco/improve-your-command-line-go-application-with-promptui-6c4e6fb5a1bc
+        decision := PromptGameChoice(options, "What would you like to buy?")
+
+        fmt.Println("decision: ", decision)
     }
 }
 

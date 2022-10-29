@@ -407,7 +407,7 @@ orderStatus, ok := lo.Find(order_status_list, func(orderStatus OrderStatus) bool
 	})
 ```
 
-Instead of struggling to learn `lo` in a larger project, I kicke its tires in a [go playgroound](https://go.dev/play/p/dxXmzkdCRPw).
+Instead of struggling to learn `lo` in a larger project, I kicked its tires in a [go playgroound](https://go.dev/play/p/dxXmzkdCRPw).
 
 
 ```
@@ -859,6 +859,12 @@ go run . startGame
 
 # Day 9
 
+By now, I have the API and CLI working together. I can issue commands and interact with the API, and I'm using the CLI to drive. 
+
+This has many been a solo effort but I'm starting to think about security and consequences of making it public. The end goal would be share this story with the world; the beauty (and occasional horror) of any internet-enabled app. 
+
+<img src="ai_co_author.png" />
+
 fmt.Println("Before sleep the time is:", time.Now().Unix())     // Before sleep the time is: 1257894000
     time.Sleep(2 * time.Second)                                     // pauses execution for 2 seconds
     fmt.Println("After sleep the time is:", time.Now().Unix())  
@@ -934,3 +940,77 @@ valid json
 https://jsonlint.com/
 
 https://socketloop.com/tutorials/golang-unmarshal-json-from-http-response
+
+https://www.alexedwards.net/blog/how-to-properly-parse-a-json-request-body
+
+https://freshman.tech/snippets/go/extract-url-query-params/
+
+### Pagination 
+
+https://medium.com/@gdr2409/pagination-with-postgresql-18e0b89e0b1c
+
+https://www.digitalocean.com/community/tutorials/an-introduction-to-working-with-strings-in-go
+
+https://stackoverflow.com/questions/21272146/variable-capturing-in-string-literal-in-go
+
+concat with + is not so bad 
+
+https://golang.cafe/blog/golang-int-to-string-conversion-example.html
+
+https://stackoverflow.com/questions/59766992/what-is-the-idiomatic-way-of-getting-an-integer-value-from-query-string-in-echo
+
+https://bluehive.medium.com/json-cannot-unmarshal-object-into-a-go-struct-field-11fadb1a2a94
+
+I need to create response which converts my query results into an array of product structs.
+
+I get the following error on my initial implementation: 
+
+```
+panic: json: cannot unmarshal object into Go struct field ProductsHttpResp.body of type []battery.Product
+```
+
+After reviewing this blog post about mismatching types, I realized that I had used the wrong get function to unmarshal my response. Instead of `getUrl`, I needed to use the corresponding and more specific `GetUrlProductsResponse`. In the future, I'll refactor both of these into the a common `getUrl` which could return multiple response structs through Generics. 
+
+https://mj-go.in/golang/async-http-requests-in-go#synchronous-http-requests
+
+Where there are copious amounts of posts on writing concurrent go with goroutines, I found it challenging to find ones on writing go http calls in series. I wanted to send an instruction to the server, and based on that instruction make another api call. 
+
+First, I tried to search for series or sequential or synchronous or blocking request and finally found what I was looking based on a "chain" search tieing to back my mental of Javascript and how we can chain together promises. 
+
+https://medium.com/@goncharovny/how-to-chain-http-handlers-in-go-33c96396b397
+
+Trust in your mental model! I was confident that I could make multiple API calls in series similar to Java and Python.
+
+When I attempted, I couldn't seem to process the response correctly. After a few hours of wrestling with issue chasing many red herrings, I finally compared the json response in a browser from two tabs.
+
+```
+{
+status: 200,
+description: "Hey headwinds",
+body: [
+        {
+        product_name: "Chai",
+        unit_price: 18,
+        units_in_stock: 39
+        },
+```
+I double nested the body!
+```
+{
+status: 200,
+description: "",
+body: {
+  status: 200,
+  description: "Hey headwinds",
+  body: [
+          {
+          product_name: "Chai",
+          unit_price: 18,
+          units_in_stock: 39
+          },
+```
+No wonder when I attempted to unmarshall it got confused since it didn't match expect response struct. 
+
+Since I'm learning languages these hurdles to encourage absorption; the puzzle makes me want to chase after a solution and here I am at 10:30pm after starting at 8:30am still excited about the final solution. 
+
+

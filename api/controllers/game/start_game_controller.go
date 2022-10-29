@@ -5,13 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"github.com/headwinds/northwind-frostpunk/api/types"
 )
 
-type HttpResp struct{
-    Status      int         `json:"status"`
-    Description string      `json:"description"`
-    Body        interface{} `json:"body"`
-}
+
 
 type DatabaseHandler struct {
 	db *sql.DB
@@ -31,5 +28,5 @@ func (h *DatabaseHandler) StartGame(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	gameDay := GameDayManager()
 	
-    json.NewEncoder(w).Encode(HttpResp{Status: 200, Body: gameDay})
+    json.NewEncoder(w).Encode(types.HttpResp{Status: 200, Body: gameDay})
 }

@@ -11,10 +11,10 @@ import (
 []string{"North", "East", "South", "West"}
 */
 
-func PromptGameChoice( items []string) {
+func PromptGameChoice( items []string, label string) string {
 
     prompt := promptui.Select{
-		Label: "Select Day",
+		Label: label,
 		Items: items,
 	}
 
@@ -24,14 +24,14 @@ func PromptGameChoice( items []string) {
 		fmt.Printf("Prompt failed %v\n", err)
 	}
 
-	fmt.Printf("You choose %q\n", result)
+	//fmt.Printf("You choose %q\n", result)
 
-    //return result
+    return result
 }
 
 type Product struct {
-	Name    string
-	Price 	int
+	Name    	string
+	Price 		int
 	Quantity  	int
 }
 
@@ -42,9 +42,9 @@ func PromptSelectProducts() {
 
 	templates := &promptui.SelectTemplates{
 		Label:    "{{ . }}?",
-		Active:   "\U0001F336 {{ .Name | cyan }} ({{ .Price | red }})",
+		Active:   "\U0001FAA8 {{ .Name | cyan }} ({{ .Price | red }})", 
 		Inactive: "  {{ .Name | cyan }} ({{ .Price | red }})",
-		Selected: "\U0001F336 {{ .Name | red | cyan }}",
+		Selected: "\U0001F344 {{ .Name | red | cyan }}",
 		Details: `
 --------- Pepper ----------
 {{ "Name:" | faint }}	{{ .Name }}
