@@ -11,10 +11,13 @@ type Product struct{
     UnitPrice		float64 `json:"unit_price"`
     UnitsInStock	int  	`json:"units_in_stock"`
 }
+
+type ProductsBody []Product
+
 type ProductsHttpResp struct{
     Status      int         `json:"status"`
     Description string      `json:"description"`
-    Body        []Product 	`json:"body"`
+    Body        ProductsBody 	`json:"body"`
 }
 
 type HttpResp struct{

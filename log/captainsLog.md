@@ -871,28 +871,13 @@ fmt.Println("Before sleep the time is:", time.Now().Unix())     // Before sleep 
 
 [sleep in golang](https://golangdocs.com/sleep-function-in-golang)
 
-## API Security
+## Links
 
-https://www.rapid7.com/blog/post/2016/07/13/quick-security-wins-in-golang/
-
-https://semitechnologies.teamtailor.com/jobs/1898110-software-engineer-golang
-
-
-## Game State & Singleton 
-
-https://stackoverflow.com/questions/26170409/storing-state-in-go
-
-https://medium.com/golang-issue/how-singleton-pattern-works-with-golang-2fdd61cd5a7f
-
-https://www.educba.com/golang-global-variables/ 
+- [quick security wins](https://www.rapid7.com/blog/post/2016/07/13/quick-security-wins-in-golang/)
 
 ## Generics - 
 
-I want to pass in either string or int for user input. The user is supposed to enter a int but what happens they enter a string?!
-
-https://bitfieldconsulting.com/golang/type-parameters
-
-https://www.digitalocean.com/community/tutorials/how-to-use-generics-in-go
+I want to leverage [generics](https://www.digitalocean.com/community/tutorials/how-to-use-generics-in-go) to pass in either string or int for user input. The user is supposed to enter a int but what happens they enter a string?!
 
 
 ```
@@ -903,26 +888,7 @@ func validateOption[T any](v T) bool {
 func validateOption[T comparable](v T) bool {
 ```
 
-
-https://gotipplay.golang.org/p/s__HIHQ8Etc
-
-invalid operation: val == "C" (mismatched types T and untyped string)
-
-
-
-
-
-https://medium.com/geekculture/generics-in-go-5a36b1f978bc
-
-https://stackoverflow.com/questions/68053957/go-with-generics-type-parameter-t-is-not-comparable-with
-
 I used the [reflect](https://freshman.tech/snippets/go/check-type-of-value/) package to determine that all input is a string whether the user types 6 or apple.
-
-https://www.sohamkamani.com/golang/json/
-
-https://ahmet.im/blog/golang-json-decoder-pitfalls/
-
-https://stackoverflow.com/questions/17156371/how-to-get-json-response-from-http-get
 
 
 valid json 
@@ -937,31 +903,8 @@ valid json
 ```
 [{"Name": "Ed"},{"Name": "Sam"},{"Name": "Bob"}]
 ```
-https://jsonlint.com/
 
-https://socketloop.com/tutorials/golang-unmarshal-json-from-http-response
-
-https://www.alexedwards.net/blog/how-to-properly-parse-a-json-request-body
-
-https://freshman.tech/snippets/go/extract-url-query-params/
-
-### Pagination 
-
-https://medium.com/@gdr2409/pagination-with-postgresql-18e0b89e0b1c
-
-https://www.digitalocean.com/community/tutorials/an-introduction-to-working-with-strings-in-go
-
-https://stackoverflow.com/questions/21272146/variable-capturing-in-string-literal-in-go
-
-concat with + is not so bad 
-
-https://golang.cafe/blog/golang-int-to-string-conversion-example.html
-
-https://stackoverflow.com/questions/59766992/what-is-the-idiomatic-way-of-getting-an-integer-value-from-query-string-in-echo
-
-https://bluehive.medium.com/json-cannot-unmarshal-object-into-a-go-struct-field-11fadb1a2a94
-
-I need to create response which converts my query results into an array of product structs.
+I need to create response which converts my query results into an array of product structs. I'm learning all about [marshalling](https://socketloop.com/tutorials/golang-unmarshal-json-from-http-response) as well as the [frustration] (https://bluehive.medium.com/json-cannot-unmarshal-object-into-a-go-struct-field-11fadb1a2a94) and [pitfalls](https://ahmet.im/blog/golang-json-decoder-pitfalls/ )while working with go.
 
 I get the following error on my initial implementation: 
 
@@ -976,8 +919,6 @@ https://mj-go.in/golang/async-http-requests-in-go#synchronous-http-requests
 Where there are copious amounts of posts on writing concurrent go with goroutines, I found it challenging to find ones on writing go http calls in series. I wanted to send an instruction to the server, and based on that instruction make another api call. 
 
 First, I tried to search for series or sequential or synchronous or blocking request and finally found what I was looking based on a "chain" search tieing to back my mental of Javascript and how we can chain together promises. 
-
-https://medium.com/@goncharovny/how-to-chain-http-handlers-in-go-33c96396b397
 
 Trust in your mental model! I was confident that I could make multiple API calls in series similar to Java and Python.
 
@@ -1013,4 +954,42 @@ No wonder when I attempted to unmarshall it got confused since it didn't match e
 
 Since I'm learning languages these hurdles to encourage absorption; the puzzle makes me want to chase after a solution and here I am at 10:30pm after starting at 8:30am still excited about the final solution. 
 
+# Day 10
 
+## Testing
+
+After 2 weeks of exloring golang, I think it's time to circle back to test instead pursuing the remainder of the build plan; in fact testing will always be part of the early build but I wanted to learn more the language before investing in tests. I'm ready. As a prerequisite, this [blog post How To Write Unit Tests in Go](https://www.digitalocean.com/community/tutorials/how-to-write-unit-tests-in-go-using-go-test-and-the-testing-package
+) recommends "A familiarity with the Go programming language" before writing your first unit test. 
+
+Similar to Python, Java, or Javascript, I want to build tests that produce reports and give me a sense of code coverage. I'm not aiming for 100% coverage but want to test most important flows that make up the core experience. With tests in place, I have confidence to make system tweaks. The lack of tests already bit me yesterday I updated a route path and suddenly my product serivce failed. 
+
+So far, all the tests I've written attempt to produce a single result like [mocking a request](https://medium.com/zus-health/mocking-outbound-http-requests-in-go-youre-probably-doing-it-wrong-60373a38d2aa). I wonder if I could use unit testings strategies more like A/B testing though? Would there be any value in writing tests that demonstrate several different results such as testing ways to [optimize SQL queries](https://webapp.io/blog/postgres-query-speedups/)?
+
+### Links
+
+- [go lang httptest](https://golang.cafe/blog/golang-httptest-example.html)
+- [unit testing](https://medium.com/@victorsteven/understanding-unit-and-integrationtesting-in-golang-ba60becb778d)
+- [function declaration](https://stackoverflow.com/questions/34031801/function-declaration-syntax-things-in-parenthesis-before-function-name)
+- [tests for database](https://markphelps.me/posts/writing-tests-for-your-database-code-in-go/)
+- [go style guide](https://google.github.io/styleguide/go/guide)
+- [go chaining http handlers](https://medium.com/@goncharovny/how-to-chain-http-handlers-in-go-33c96396b397)
+
+# Day 11
+
+## Testing vs Pushing a prototype?!
+
+After a day of testing Go controllers and not making as much as progress as I would have liked, I've decided to switch back to building out the services first, and try to unit test small functions and save the controllers for later. 
+
+I want to see how far my user testers get before I spend too much time unit testing flows, and adopt the approach of adding tests where it breaks.   
+
+The more work within the terminal, the more I want to bring design into this space to format the text; make it pleasing to the eye taking inspiration from tools like [charm](https://charm.sh/)
+
+I was able to copy and paste the sql from the northwind-psql project into the elephantsql browser and after executing it, it creates the Northwind tables and seeds them.
+
+Similar to Python or Java, I want to use `.env` file which isn't committed to git to store connection strings and other [variables](https://towardsdatascience.com/use-environment-variable-in-your-next-golang-project-39e17c3aaa66). It's tempting to use godotenv but with go with Viper since I'm already using it in the CLI
+
+I have 2 hosting options that I'm most familar with: either Vercel or GCP. I could either host this Go API as a Cloud Run container on GCP or I could [deploy to Vercel](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/go).
+
+Now that I'm feeling more confidedent writing Go, and already have one Go app (a feed file system reporting tool) under my belt at [Loblaw Digital](https://www.loblawdigital.co/), I'm curious about the market may hold for Go developers worldwide. There certaining some interesting positions out there like from this one from [semitechnologies](https://semitechnologies.teamtailor.com/jobs/1898110-software-engineer-golang) which has a vector search tool using NLP. As fascinating it is to look at sites like [levels.fyi](https://www.levels.fyi/) and share with my manager (we could use banding as there really is no advancement beyond senior), the goal is to continue to build up the culture though. 
+
+If you at times you feel bored in your current role, augmenting you daily routine with passion projects like this can smooth those lulls. My morning rituat is have coffee and crush on projecs like this to prepare me for the day of wrestling with eCommerce puzzles; it's a beautiful balanace; it's living the dream of writing both sides of the contract. 
