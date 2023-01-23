@@ -993,3 +993,31 @@ I have 2 hosting options that I'm most familar with: either Vercel or GCP. I cou
 Now that I'm feeling more confidedent writing Go, and already have one Go app (a feed file system reporting tool) under my belt at [Loblaw Digital](https://www.loblawdigital.co/), I'm curious about the market may hold for Go developers worldwide. There certaining some interesting positions out there like from this one from [semitechnologies](https://semitechnologies.teamtailor.com/jobs/1898110-software-engineer-golang) which has a vector search tool using NLP. As fascinating it is to look at sites like [levels.fyi](https://www.levels.fyi/) and share with my manager (we could use banding as there really is no advancement beyond senior), the goal is to continue to build up the culture though. 
 
 If you at times you feel bored in your current role, augmenting you daily routine with passion projects like this can smooth those lulls. My morning rituat is have coffee and crush on projecs like this to prepare me for the day of wrestling with eCommerce puzzles; it's a beautiful balanace; it's living the dream of writing both sides of the contract. 
+
+https://freshman.tech/snippets/go/cross-compile-go-programs/
+
+https://opensource.com/article/21/1/go-cross-compiling
+
+# Day 12
+
+After a bit of a hiatus, I'm returning to this project. I was distracted by the other component library project as I heard wind of Loblaw moving everyone to Typescrit and felt the need to devote time to relearn it. I had adopted it about 4 years ago and in fact attempted to bring it in Loblaw when I started along with NextJS but there was no appetite for it at the time. Times have changed!
+
+Go of course is a typed language. So to continue on the typing trip and shake off the rust, I started a few struct studies to practice.
+
+
+## Struct Studies
+
+- [Create a cleric](https://go.dev/play/p/6zzcX3mWczC)
+
+- [Graphs Overview Part 1](https://www.youtube.com/watch?v=JDP1OVgoa0Q)
+- [Graphs in Golang Part 2](https://www.youtube.com/watch?v=bSZ57h7GN2w)
+
+https://medium.com/towards-data-science/predict-transactions-on-your-website-using-big-query-ml-c365f58d29ca
+
+https://medium.com/geekculture/using-chatgpt-to-learn-sql-53067465076e
+
+https://how.studio/work/freetree
+
+https://www.ecosia.org/
+
+https://blog.logrocket.com/when-to-use-rust-when-to-use-golang/

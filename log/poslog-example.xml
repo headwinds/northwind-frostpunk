@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<POSLog xmlns="http://www.nrf-arts.org/IXRetail/namespace/" xmlns:pcms="http://www.pcmsgroup.com/XML">
+    <Transaction>
+        <RetailStoreID>40-anonymized-99</RetailStoreID>
+        <BusinessUnit>
+            <UnitID TypeCode="AdministrationCenter">0001</UnitID>
+        </BusinessUnit>
+        <WorkstationID>1017</WorkstationID>
+        <SequenceNumber>1753023</SequenceNumber>
+        <BusinessDayDate>2022-12-19</BusinessDayDate>
+        <BeginDateTime>2022-12-19T18:28:31</BeginDateTime>
+        <EndDateTime>2022-12-19T18:28:31</EndDateTime>
+        <OperatorID OperatorType="Cashier">99999</OperatorID>
+        <ReceiptNumber>369-anonymized-262</ReceiptNumber>
+        <pcms:PCMSTransaction>
+            <pcms:DBSchemaVersion>3.106.25</pcms:DBSchemaVersion>
+            <pcms:BuildNumber>1.0</pcms:BuildNumber>
+            <pcms:OnlineStatus>0</pcms:OnlineStatus>
+            <pcms:TransactionType>3</pcms:TransactionType>
+            <pcms:ExternalSystem/>
+            <pcms:UTCOffset>-05:00</pcms:UTCOffset>
+            <pcms:OffLineFlag>true</pcms:OffLineFlag>
+        </pcms:PCMSTransaction>
+        <RetailTransaction TransactionStatus="Finished" Version="2.2">
+            <LineItem EntryMethod="Scanned" pcms:LineType="1">
+                <SequenceNumber>0</SequenceNumber>
+                <BeginDateTime>2022-12-19T18:28:31</BeginDateTime>
+                <pcms:PCMSLoyaltyCustomerDetail>
+                    <pcms:CycleCode>84</pcms:CycleCode>
+                    <pcms:PurchasePoints0>-2085</pcms:PurchasePoints0>
+                    <pcms:purchasePoints1>0</pcms:purchasePoints1>
+                    <pcms:purchasePoints2>0</pcms:purchasePoints2>
+                    <pcms:RedeemPoints>0</pcms:RedeemPoints>
+                    <pcms:ActualDate>2022-12-19</pcms:ActualDate>
+                    <pcms:ActualTime>18:30:01</pcms:ActualTime>
+                    <pcms:LoyaltyID>6085-anonymized-0342</pcms:LoyaltyID>
+                </pcms:PCMSLoyaltyCustomerDetail>
+                <LoyaltyReward pcms:LoyaltyRewardType="CardLinePoints">
+                    <PromotionID>LIS-POINTS_ISSUANCE</PromotionID>
+                    <LoyaltyID>6085-anonymized-0342</LoyaltyID>
+                    <PointsAwarded Type="Reversal">2085</PointsAwarded>
+                    <PromotionMessage>POINTS ISSUANCE</PromotionMessage>
+                    <pcms:PCMSLoyaltyReward>
+                        <pcms:PointsGroup>LIS-POINTS_ISSUANCE</pcms:PointsGroup>
+                        <pcms:PointsType>Earned</pcms:PointsType>
+                    </pcms:PCMSLoyaltyReward>
+                    <pcms:PCMSPromotionAwarded>true</pcms:PCMSPromotionAwarded>
+                </LoyaltyReward>
+                <Return ItemSubType="Normal" ItemType="Stock">
+                    <ItemID Type="SKU">088716748548</ItemID>
+                    <MerchandiseHierarchy Level="5">00548</MerchandiseHierarchy>
+                    <Description>ESTEE CREAM</Description>
+                    <RegularSalesUnitPrice>139.0</RegularSalesUnitPrice>
+                    <ActualSalesUnitPrice>139.0</ActualSalesUnitPrice>
+                    <ExtendedAmount>139.0</ExtendedAmount>
+                    <Quantity>1</Quantity>
+                    <SellingLocation pcms:SubDepartmentCode="236">TR</SellingLocation>
+                    <Tax pcms:NegativeValue="true" TaxType="Sales">
+                        <SequenceNumber>120</SequenceNumber>
+                        <TaxableAmount>139.0</TaxableAmount>
+                        <Amount>18.07</Amount>
+                        <Percent>13.0</Percent>
+                        <TaxGroupID>H</TaxGroupID>
+                        <pcms:PCMSTax>
+                            <pcms:TaxRuleName>HST-ON</pcms:TaxRuleName>
+                        </pcms:PCMSTax>
+                    </Tax>
+                    <pcms:PCMSReturn>
+                        <pcms:OwningDepartment>9</pcms:OwningDepartment>
+                        <pcms:ProductHandling>10</pcms:ProductHandling>
+                    </pcms:PCMSReturn>
+                </Return>
+                <pcms:PCMSLineItem>
+                    <pcms:DetailNumber TxnType="TxnMedia">0</pcms:DetailNumber>
+                </pcms:PCMSLineItem>
+                <pcms:PCMSCustomData Name="ProdAttribCustomData">redeemable=1;pointable=1</pcms:PCMSCustomData>
+            </LineItem>
+            <LineItem>
+                <SequenceNumber>1</SequenceNumber>
+                <BeginDateTime>2022-12-19T18:28:31</BeginDateTime>
+                <pcms:PCMSLineItem>
+                    <pcms:DetailNumber TxnType="TxnMedia"/>
+                </pcms:PCMSLineItem>
+                <Tax pcms:NegativeValue="true" TaxType="Sales">
+                    <SequenceNumber>1</SequenceNumber>
+                    <TaxableAmount>139.0</TaxableAmount>
+                    <Amount>18.07</Amount>
+                    <Percent>13.0</Percent>
+                    <pcms:PCMSTax>
+                        <pcms:TaxRuleName>HST-ON</pcms:TaxRuleName>
+                    </pcms:PCMSTax>
+                </Tax>
+            </LineItem>
+            <LineItem EntryMethod="Scanned">
+                <SequenceNumber>2</SequenceNumber>
+                <BeginDateTime>2022-12-06T15:01:36</BeginDateTime>
+                <EndDateTime>2022-12-06T15:01:36</EndDateTime>
+                <Tender TenderType="CreditDebit" TypeCode="Refund">
+                    <TenderID>33</TenderID>
+                    <Amount ForeignAmount="0.0">157.07</Amount>
+                    <CreditDebit CardType="Credit" TypeCode="Visa">
+                        <PrimaryAccountNumber>4525********7186</PrimaryAccountNumber>
+                    </CreditDebit>
+                    <pcms:PCMSTender>
+                        <pcms:MediaType>4</pcms:MediaType>
+                    </pcms:PCMSTender>
+                </Tender>
+                <pcms:PCMSLineItem>
+                    <pcms:DetailNumber TxnType="TxnMedia">0</pcms:DetailNumber>
+                </pcms:PCMSLineItem>
+            </LineItem>
+            <Total pcms:NegativeValue="True" TotalType="TransactionGrandAmount">157.07</Total>
+            <Total pcms:NegativeValue="True" TotalType="TransactionGrossAmount">157.07</Total>
+            <Total pcms:NegativeValue="True" TotalType="TransactionTaxAmount">18.07</Total>
+            <Total pcms:NegativeValue="True" TotalType="TransactionNetAmount">139.0</Total>
+            <LoyaltyAccount>
+                <CustomerID>6085-anonymized-0342</CustomerID>
+            </LoyaltyAccount>
+            <TransactionLink>
+                <RetailStoreID>40-anonymized-99</RetailStoreID>
+                <ReceiptNumber>369-anonymized-262</ReceiptNumber>
+                <WorkstationID>1017</WorkstationID>
+                <SequenceNumber>1550557</SequenceNumber>
+                <pcms:PCMSTransactionLink>
+                    <pcms:BusinessUnit>
+                        <UnitID TypeCode="AdministrationCenter">0001</UnitID>
+                    </pcms:BusinessUnit>
+                    <pcms:originalStartDate>2022-12-02T06:17:16</pcms:originalStartDate>
+                </pcms:PCMSTransactionLink>
+            </TransactionLink>
+            <pcms:PCMSRetailTransaction/>
+            <pcms:PCMSLoyaltyAccounts>
+                <pcms:LoyaltyAccount>
+                    <pcms:LoyaltyAccountID>6085-anonymized-0342</pcms:LoyaltyAccountID>
+                    <pcms:LoyaltyAccountStatus>00</pcms:LoyaltyAccountStatus>
+                    <pcms:LoyaltyCaptureMode>6</pcms:LoyaltyCaptureMode>
+                    <pcms:LoyaltyCardType>7</pcms:LoyaltyCardType>
+                    <pcms:CustomerType>7</pcms:CustomerType>
+                    <pcms:LoyaltyProgramName>BR</pcms:LoyaltyProgramName>
+                </pcms:LoyaltyAccount>
+            </pcms:PCMSLoyaltyAccounts>
+            <pcms:PCMSLoyaltyCustomer>
+                <pcms:CycleCode>10</pcms:CycleCode>
+                <pcms:PurchasePoints0>-2085</pcms:PurchasePoints0>
+                <pcms:purchasePoints1>0</pcms:purchasePoints1>
+                <pcms:purchasePoints2>0</pcms:purchasePoints2>
+                <pcms:RedeemPoints>0</pcms:RedeemPoints>
+                <pcms:ActualDate>2022-12-19</pcms:ActualDate>
+                <pcms:ActualTime>18:30:01</pcms:ActualTime>
+                <pcms:LoyaltyID>6085-anonymized-70342</pcms:LoyaltyID>
+            </pcms:PCMSLoyaltyCustomer>
+        </RetailTransaction>
+    </Transaction>
+</POSLog>
