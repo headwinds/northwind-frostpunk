@@ -1,27 +1,26 @@
 # northwind-frostpunk
-a tutorial exploring golang, the northwind database, and the post apocalypse 
-
-This tutorial is geared towards Mac users.
-
-why am I making this? I've become familar with the Northwind database to teach SQL but I thought many of the tutorials I went through to be crudely designed and I simply desired something that would encourage me to explore and expand upon it. 
-
-I also wanted to work on Golang again since the last app, Tank. I built Tank (think aquarium) to produce a daily report (crontab) looking at our feeds folder and would look into a dozen third-party feed folders. It woud count the incoming, proceeded and error files and attempt to raise an insight or call to action. Since it's been several months since I last touched it, it feels like I've forgotten all the syntax. Fortunately, building software is like riding bike! Even if it is a bit rickety at the start...
 
 <img src="../frostpunk.png" />
+
+An exploration of Golang, the Northwind Database, and the fascinating fandom of post apocalyptic media like [Station Eleven](https://max.fandom.com/wiki/Station_Eleven) and the survival stragety game [Frostpunk](https://www.frostpunkgame.com/)!
+
+What can I build with Go & Northwind, and have fun while doing it? I've become familar with the Northwind database to teach SQL but I thought many of the tutorials I went through to be crudely designed and I simply desired something that would encourage me to explore and expand upon it. 
+
+I also wanted to work on Go again. To this day, I have built one professional Go app which I code-named Tank (think aquarium) to produce a daily report analysing Loblaws feeds server. No one said that I had to use Go. In fact, at first I was encouraged to try Bash but after some research, I discovered Go, and it seemed more suitable to the task. I also liked what I saw from [functional programmng paradigms](https://medium.com/@geisonfgfg/functional-go-bc116f4c96a4) expressed in the language that were familiar to me.  
 
 ## Day 1 Overview
 
 1. setup and connect to postgres
-2. learn a bit of golang 
-3. connect golang to postgres
-4. explore the database and learn about CTEs
-5. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/Frostpunk)!
+1. learn a bit of golang 
+1. connect golang to postgres
+1. explore the database and learn about CTEs
+1. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/Frostpunk)!
 
 ## PostgreSQL 
 
 [northwind_psql](https://github.com/pthom/northwind_psql) is a github repo that sets up Postgres with a docker container. 
 
-In addition to its readme, I would add that the following guide post that once the docker is up and finishes installing the database, open another another terminal window and test the conection.  
+In addition to it's readme, I would add that the following guide post that once the docker is up and finishes installing the database, open another another terminal window and test the conection.  
 
 ```
 docker-compose exec db psql -U postgres -d northwind
@@ -41,7 +40,7 @@ port: 55432
 
 Initialy, I found it challenging to connect to the database running in its docker and this is connection details that I ended up using by trial and error.
 
-## Golang
+## Go
 
 I followed this golang [getting-started](https://go.dev/doc/tutorial/getting-started) tutorial as a refresher since I hadn't touched golang in several months.
 
@@ -49,26 +48,19 @@ Next, after I was to output some pithy text and learned the `go mod tidy` comman
 
 As I already wrestled the postgres setup, the code provided in the tutorial worked right away. Now, I wanted to import my own function into my main project so I could log a pithy quote. I reviewed the [go mod](https://go.dev/doc/tutorial/create-module) tutorial and converted my original hello.go script into a function that I could import.  
 
-#### Log 🚀
-
--- Sept 21/2022 -- 
-
-Day 1 took me about 4 hours in 2 sessions
-
 As I accomplished the first 3 steps in my plan, I think I'll needed a couple more hours to put the finishing touches on this guided tutorial. I still need to:
-
-4. explore the database and learn about CTEs
-5. play with the data & time inspired by [Frostpunk](https://en.wikipedia.org/wiki/
 
 Anyways, I'm happy with this progress [as the hours pass...](https://www.youtube.com/watch?v=RQBDSciMe8c)
 
-## Day 2 Survive the night! 
+## Day 2 
+
+#### Survive the night! 
 
 <img src ='https://raw.githubusercontent.com/pthom/northwind_psql/master/ER.png' />
 
 A database mapped out in [UML](https://www.microsoft.com/en-ca/microsoft-365/business-insights-ideas/resources/guide-to-uml-diagramming-and-database-modeling) is an adventure for your eyes. 
 
-Let's begin day 2 will pulling a few examples from this [Products Table Exercises](https://www.w3resource.com/mysql-exercises/northwind/products-table-exercises/) tutorial. 
+Let's begin day 2 by pulling a few examples from this [Products Table Exercises](https://www.w3resource.com/mysql-exercises/northwind/products-table-exercises/) tutorial. 
 
 I like how this author has included a [relational algebra](https://www.javatpoint.com/dbms-relational-algebra) tree diagram. 
 
@@ -80,7 +72,7 @@ Over on stackoverflow, this user asks for [more](https://stackoverflow.com/quest
 
 https://itnext.io/go-tutorial-database-queries-on-go-with-postgresql-part-iii-c8907729c2f
 
-4. Write a query to get most expense and least expensive Product list (name and unit price).
+Write a query to get most expense and least expensive Product list (name and unit price).
 
 ```
 SELECT product_name, unit_price 
@@ -88,7 +80,7 @@ FROM products
 ORDER BY unit_price DESC;
 ```
 
-6. Write a query to get Product list (id, name, unit price) where products cost between $15 and $25.
+Write a query to get Product list (id, name, unit price) where products cost between $15 and $25.
 
 ```
 SELECT product_name, unit_price
@@ -98,7 +90,7 @@ AND ((products.discontinued)=1))
 ORDER BY products.unit_price DESC;
 ```
 
-9. Write a query to count current and discontinued products.
+Write a query to count current and discontinued products.
 
 One of favourite queries is the ability to simply count and roll up records. The Count function is the beginning of your data aggregation journey! 
 
@@ -110,7 +102,7 @@ GROUP BY discontinued;
 
 When dealing with physical products, there is a real sense of scarcity since products may go out of stock. We can't sell what we don't have.
 
-10. Write a query to get Product list (name, units on order , units in stock) of stock is less than the quantity on order.
+Write a query to get Product list (name, units on order , units in stock) of stock is less than the quantity on order.
 ```
 SELECT product_name,  units_on_order, units_in_stock
 FROM products
@@ -119,7 +111,7 @@ WHERE (((discontinued)=0) AND ((units_in_stock)<units_on_order));
 Next, I looked at this tutorial [Northwind Queries Part 1](https://www.geeksengine.com/database/problem-solving/northwind-queries-part-1.php) from Geeks Engine 
 
 
-4. This is a rather simple query to get an alphabetical list of products.
+This is a rather simple query to get an alphabetical list of products.
 
 ```
 SELECT DISTINCT b.*, a.category_name
@@ -129,7 +121,7 @@ WHERE b.discontinued = 0
 ORDER BY b.product_name;
 ```
 
-11. Products Above Average Price
+Products Above Average Price
 
 This query shows how to use sub-query to get a single value (average unit price) that can be used in the outer-query.
 
@@ -140,7 +132,7 @@ WHERE unit_price > (SELECT AVG(unit_price) FROM products)
 ORDER BY unit_price;
 ```
 
-14. Quarterly Orders by Product
+Quarterly Orders by Product
 
 This query shows how to convert order dates to the corresponding quarters. It also demonstrates how SUM function is used together with CASE statement to get sales for each quarter, where quarters are converted from OrderDate column.
 
@@ -166,7 +158,7 @@ group by a.product_name,
     EXTRACT(YEAR FROM CAST(c.order_date AS DATE))
 order by a.product_name, d.company_name;
 ```
-There is stretch goal that I need to look since the formatting of the numbers looks funny. 
+There is stretch goal that I need to look at since the formatting of the numbers looks funny. 
 
 I know that I need to use either `char_at` or the `FORMAT` function to improve it.  
 
@@ -175,7 +167,7 @@ Emanoel Nascimento where the challenge became can I create the questions if I ha
 
 I grabbed a few of his examples from the [sql](https://github.com/emnasc/northwind-sql-practice/blob/master/sql-practice-execises.sql) he provided. 
 
-20.
+
 ``` 
  SELECT  C.category_name
        ,COUNT(P.category_id) AS total_products
@@ -185,7 +177,7 @@ I grabbed a few of his examples from the [sql](https://github.com/emnasc/northwi
  GROUP BY C.category_name
  ORDER BY total_products DESC;
 ```
-29.
+
 ```
 SELECT  ORD.employee_id
        ,EMP.last_name
@@ -201,7 +193,7 @@ SELECT  ORD.employee_id
     ON PRO.product_id = ODE.product_id
  ORDER BY ODE.order_id ASC; 
 ```
-30.
+
 
 ```
 SELECT  C.customer_id AS customer_customer_id
@@ -211,6 +203,7 @@ SELECT  C.customer_id AS customer_customer_id
 	ON C.customer_id = O.customer_id
  WHERE O.customer_id IS NULL;
 ```
+
 What happens if we want the customer to not be null?
 ```
 SELECT  C.customer_id AS customer_customer_id
@@ -221,11 +214,13 @@ SELECT  C.customer_id AS customer_customer_id
  WHERE O.customer_id IS NOT NULL;
 ```
 
-While it is possible to [add the images](http://www.geeksengine.com/article/export-access-to-mysql-5.html) or even have [AI generate them](https://generated.photos/), since this geared towards a text-based adventure they are not necessary and rather poor photography anyways. Perhaps, an AI 
+While it is possible to [add the images](http://www.geeksengine.com/article/export-access-to-mysql-5.html) or even have [AI generate them](https://generated.photos/), since this geared towards a text-based adventure they are not necessary and rather poor photography anyways. Perhaps, an AI can assist?!
 
 ## Frostpunk
 
-Besides [3 minute chess](https://lichess.org/) or [Wordle](https://www.nytimes.com/games/wordle/index.html), I haven't played a serious computer game since I gave up Starcraft 2 a few years ago. I wanted forever it seems to finally play Frostpunk which is [now 75% off](https://store.steampowered.com/agecheck/app/323190/) on steam.
+Besides [3 minute chess](https://lichess.org/) or [Wordle](https://www.nytimes.com/games/wordle/index.html), I haven't played a serious computer game since I gave up Starcraft 2 a few years ago. I waited forever it seems to finally play Frostpunk which is [now 75% off](https://store.steampowered.com/agecheck/app/323190/) on steam.
+
+I want to enhance the Northwind data with some gaming ideas from Frostpunk. I'll introduce the concept of hope which Frostpunk applies to their citizen models. 
 
 #### Hope
 
@@ -254,6 +249,7 @@ CREATE TABLE profession(
   profession_salary integer NOT NULL
 );
 ```
+
 ```
 INSERT INTO profession (profession_name, profession_salary)
 VALUES
@@ -288,13 +284,9 @@ After all the database work, I ran out of juice by the end of the session so end
 
 <img src="terminal_day2.png" />
 
-#### Log 🚀 
-
--- Sept 22/2022 -- 
-
 I had less time today than yesterday with work heating up. At a large enterprise, at times we only have 60% of a solution ready to serve our trading team and call centre. Developers often need to refer to SOP (service operationg procedures) that document how to run scripts in our admin tool to patch problems where a bit of UI and a button could have saved the day to complete the feature. 
 
-As someone who cares about product and fullstack development, there is where I see large gaps in our UI and the services we offer.  Obviously, I'm proud of my own SOP contributions. 
+As someone who cares about product and fullstack development, this is where I see large gaps in our UI and the services we offer.  
 
 This write up was banged out to [Nina Las Vegas b2b Swick DJ Set | Keep Hush Live](https://www.youtube.com/watch?v=8d0mHipC1LA) and [HAAi B2B Daniel Avery | Boiler Room x Glitch Festival 2022](https://www.youtube.com/watch?v=WFexmmlpXe0).
 
@@ -313,6 +305,7 @@ CREATE TABLE order_status(
   updated_at timestamp default current_timestamp
 );
 ```
+
 ```
 ALTER TABLE order_status 
     ADD COLUMN order_id INTEGER 
@@ -382,7 +375,7 @@ Now that I could query the database and print rows in the terminal I want to ret
 
 Design patterns are extremely valuable in programming. When you approach another language, you can lean on these patterns to help you navigate and build workflows. If a language does not support common patterns, it is sign that the language may not be robust and mature as other langauges. 
 
-One of my favourite patterns is [Functional Programming](https://fsharpforfunandprofit.com/fppatterns/), and when coing in Java, Javascript, Go or Python, I attempt to use these patterns as a path to do work in an universal and efficient way. 
+One of my favourite patterns is [Functional Programming](https://fsharpforfunandprofit.com/fppatterns/), and when coding in Java, Javascript, Go or Python, I attempt to use these patterns as a path to do work in an universal and efficient way. 
 
 Fortunately, Golang can support [FP](https://blog.logrocket.com/functional-programming-in-go/#:~:text=The%20goal%20of%20functional%20programming%20is%20to%20make%20the%20state,that%20may%20cause%20side%20effects.)
 patterns, and once you common FP functions like [map, find, filter, and reduce](https://medium.com/@geisonfgfg/functional-go-bc116f4c96a4) you'll want to reach for these tools to process your data.  
@@ -435,6 +428,7 @@ I ran into a problem installing the recommend [Cobra](https://github.com/spf13/c
 
 I explored and fixed my $GOPATH like so:
 
+```
 which go
 /Users/braflow/.gvm/gos/go1.19.1/bin/go
 
@@ -442,6 +436,7 @@ export GOPATH=/Users/braflow/.gvm/gos/go1.19.1/bin/go
 export PATH=$PATH:$GOPATH/bin
 
 nano .zshrc 
+```
 
 At the bottom of the file, I added
 
@@ -454,7 +449,9 @@ Then save & exit nano via: Ctrl o & Ctrl x
 
 Now when I try 
 
+```
 echo $GOPATH 
+```
 
 I should see `/Users/braflow/.gvm/gos/go1.19.1/bin/go`
 
@@ -484,7 +481,7 @@ So it seems to run but the init fails
 Error: exit status 1
 ```
 
-well... it might also be because I'm on the latest version of go according to this [github issue thread](https://github.com/spf13/cobra/issues/1587); at leaset I'm not the only one.
+It might also be because I'm on the latest version of go according to this [github issue thread](https://github.com/spf13/cobra/issues/1587); at leaset I'm not the only one.
 
 So I installed 1.18.3
 ```
@@ -511,7 +508,7 @@ Perhaps, I'll want to rewind the day but for now let's MVP and move forward.
 go run main.go advanceDay
 ```
 
-Ok... so now I have 2 terminal windows.
+So now I have 2 terminal windows.
 
 In the first, I'm running the API so:
 
@@ -520,14 +517,14 @@ cd northwind-frostpunk
 go run .
 ```
 
-and in the second, I want to test the API using the CLI
+In the second, I want to test the API using the CLI
 
 ```
 cd northwind-frostpunk/cli
 go run main.go advanceDay
 ```
 
-I discovered I needed to do a bit more work to [present the json](https://stackoverflow.com/questions/20873640/how-to-get-json-object-by-calling-a-url-in-go-language) 
+I discovered that I needed to do a bit more work to [present the json](https://stackoverflow.com/questions/20873640/how-to-get-json-object-by-calling-a-url-in-go-language) 
 
 ```
 northwind-frostpunk/cli on  cobra [!] via 🐹 v1.19.1 
@@ -539,7 +536,7 @@ Perfect! I should see products:  map[body:[map[product_name:Chai unit_price:18 u
 
 https://github.com/inancgumus/learngo
 
-planning 5 days of orders to reach 1M+ in sales. Is this even possible with the current customer base?
+On paper, I've prepared a game plan covering 5 days of orders to reach 1M+ in sales by the end of the week! Is this even possible with the current customer base?
 
 And what is already in the database?
 
@@ -650,6 +647,7 @@ FROM (SELECT C.contact_name
 
 You will see the CO (our new CustomerOrder table) has the same result as the sub query. But I want to aggregate the data and sum the total of unit price multiplied against the quantity. 
 
+```
 SELECT (CO.customer as name) 
 FROM (SELECT C.contact_name 
        ,ODE.order_id
@@ -665,7 +663,7 @@ FROM (SELECT C.contact_name
     ON PRO.product_id = ODE.product_id
  WHERE ODE.order_id = 10250
  ORDER BY ODE.order_id ASC) as CO;
-
+```
 
 Can I join the customer and order tables to produce a record?
 
@@ -677,8 +675,11 @@ cannot cast type real to money!
 ```
   cast(to_char(sum(CO.unit_price * CO.quantity),'L99D99') as money) as total
 ```
+I get this error:
 
+```
 ERROR:  invalid input syntax for type money: "$ ##.##"
+```
 
 If I remove the quantity I get $66.90 with only the unit price. 
 
@@ -703,11 +704,12 @@ FROM (SELECT C.contact_name
  WHERE ODE.order_id = 10250
  ORDER BY ODE.order_id ASC) as CO
  GROUP BY CO.contact_name; 
-````
+```
+
 Now I see the desired result:
 ```
 Mario Pontes purchased a $1,813.00 of products including Jack's New England Clam Chowder, Manjimup Dried Apples, and Louisiana Fiery Hot Pepper Sauce.
-``
+```
 Stretch goal: instead of sub query, could I could the same thing with a [CTE](https://learnsql.com/blog/sql-subquery-cte-difference/)?
 
 That is easy enough. All I had to do was reposition the sub query.
@@ -836,7 +838,7 @@ In order to get to Graph theory, I need to start the graph - start the game! The
 The [Interactive](https://dev.to/divrhino/building-an-interactive-cli-app-with-go-cobra-promptui-346n) [CLI](https://www.thorsten-hans.com/lets-build-a-cli-in-go-with-cobra/) needs to provide options so the user can simply use their arrows keys to select their choice.
 
 
-So northwind-frostpunk is a bit much to type of each to run the CLI. I want something shorter like battery since I've just decided this is a game about the birth of lithium mining in Canada. Our miners will be using our Northwind database to purchase supplies.  
+So northwind-frostpunk is a bit much to type each time to run the CLI. I want something shorter and have landed on `battery` since I've just decided this is a game about the birth of lithium mining in Canada. Our miners will be using our Northwind database to purchase supplies.  
 
 Once I updated the battery command, then I can build the project 
 
@@ -865,17 +867,16 @@ This has many been a solo effort but I'm starting to think about security and co
 
 <img src="ai_co_author.png" />
 
+```
 fmt.Println("Before sleep the time is:", time.Now().Unix())     // Before sleep the time is: 1257894000
     time.Sleep(2 * time.Second)                                     // pauses execution for 2 seconds
     fmt.Println("After sleep the time is:", time.Now().Unix())  
+```
 
-[sleep in golang](https://golangdocs.com/sleep-function-in-golang)
-
-## Links
-
+- [sleep in golang](https://golangdocs.com/sleep-function-in-golang)
 - [quick security wins](https://www.rapid7.com/blog/post/2016/07/13/quick-security-wins-in-golang/)
 
-## Generics - 
+### Generics 
 
 I want to leverage [generics](https://www.digitalocean.com/community/tutorials/how-to-use-generics-in-go) to pass in either string or int for user input. The user is supposed to enter a int but what happens they enter a string?!
 
@@ -904,7 +905,7 @@ valid json
 [{"Name": "Ed"},{"Name": "Sam"},{"Name": "Bob"}]
 ```
 
-I need to create response which converts my query results into an array of product structs. I'm learning all about [marshalling](https://socketloop.com/tutorials/golang-unmarshal-json-from-http-response) as well as the [frustration] (https://bluehive.medium.com/json-cannot-unmarshal-object-into-a-go-struct-field-11fadb1a2a94) and [pitfalls](https://ahmet.im/blog/golang-json-decoder-pitfalls/ )while working with go.
+I need to create response which converts my query results into an array of product structs. I'm learning all about [marshalling](https://socketloop.com/tutorials/golang-unmarshal-json-from-http-response) as well as the [frustration] (https://bluehive.medium.com/json-cannot-unmarshal-object-into-a-go-struct-field-11fadb1a2a94) and [pitfalls](https://ahmet.im/blog/golang-json-decoder-pitfalls/) while working with go.
 
 I get the following error on my initial implementation: 
 
@@ -914,11 +915,9 @@ panic: json: cannot unmarshal object into Go struct field ProductsHttpResp.body 
 
 After reviewing this blog post about mismatching types, I realized that I had used the wrong get function to unmarshal my response. Instead of `getUrl`, I needed to use the corresponding and more specific `GetUrlProductsResponse`. In the future, I'll refactor both of these into the a common `getUrl` which could return multiple response structs through Generics. 
 
-https://mj-go.in/golang/async-http-requests-in-go#synchronous-http-requests
-
 Where there are copious amounts of posts on writing concurrent go with goroutines, I found it challenging to find ones on writing go http calls in series. I wanted to send an instruction to the server, and based on that instruction make another api call. 
 
-First, I tried to search for series or sequential or synchronous or blocking request and finally found what I was looking based on a "chain" search tieing to back my mental of Javascript and how we can chain together promises. 
+First, I tried to search for series or sequential or [synchronous](https://mj-go.in/golang/async-http-requests-in-go#synchronous-http-requests) or blocking request and finally found what I was looking based on a "chain" search tieing to back my mental of Javascript and how we can chain together promises. 
 
 Trust in your mental model! I was confident that I could make multiple API calls in series similar to Java and Python.
 
@@ -935,7 +934,9 @@ body: [
         units_in_stock: 39
         },
 ```
+
 I double nested the body!
+
 ```
 {
 status: 200,
@@ -965,7 +966,7 @@ Similar to Python, Java, or Javascript, I want to build tests that produce repor
 
 So far, all the tests I've written attempt to produce a single result like [mocking a request](https://medium.com/zus-health/mocking-outbound-http-requests-in-go-youre-probably-doing-it-wrong-60373a38d2aa). I wonder if I could use unit testings strategies more like A/B testing though? Would there be any value in writing tests that demonstrate several different results such as testing ways to [optimize SQL queries](https://webapp.io/blog/postgres-query-speedups/)?
 
-### Links
+#### Links
 
 - [go lang httptest](https://golang.cafe/blog/golang-httptest-example.html)
 - [unit testing](https://medium.com/@victorsteven/understanding-unit-and-integrationtesting-in-golang-ba60becb778d)
@@ -994,30 +995,94 @@ Now that I'm feeling more confidedent writing Go, and already have one Go app (a
 
 If you at times you feel bored in your current role, augmenting you daily routine with passion projects like this can smooth those lulls. My morning rituat is have coffee and crush on projecs like this to prepare me for the day of wrestling with eCommerce puzzles; it's a beautiful balanace; it's living the dream of writing both sides of the contract. 
 
-https://freshman.tech/snippets/go/cross-compile-go-programs/
+- [cross-compile-go-programs](https://freshman.tech/snippets/go/cross-compile-go-programs/)
+- [go-cross-compiling](https://opensource.com/article/21/1/go-cross-compiling)
 
-https://opensource.com/article/21/1/go-cross-compiling
 
 # Day 12
 
-After a bit of a hiatus, I'm returning to this project. I was distracted by the other component library project as I heard wind of Loblaw moving everyone to Typescrit and felt the need to devote time to relearn it. I had adopted it about 4 years ago and in fact attempted to bring it in Loblaw when I started along with NextJS but there was no appetite for it at the time. Times have changed!
+After a bit of a hiatus, I'm returning to this project. I was distracted by the other component library project as I heard wind of Loblaw moving everyone to Typescript and felt the need to devote time to relearn it. I had adopted it about 4 years ago and in fact attempted to bring it in Loblaw when I started along with NextJS but there was no appetite for it at the time. Times have changed!
 
 Go of course is a typed language. So to continue on the typing trip and shake off the rust, I started a few struct studies to practice.
 
+# Day 13
 
-## Struct Studies
+This is a re-focus day. I have an API and CLI but no adequate machine to run them on! 
+
+I find myself on an old 2010 iMac which can't upgrade its OS. I plan to eventually purchase a new Macbook for personal work; mostly the Macbook Air. But for now? how can I use an old computer to do new work? 
+
+The answer is [repl.it](https://replit.com). Repl.it offers a complete cloud computing environment leveraging remote modern computers to boost your account. I'm using right now to write this up!
+
+To test the waters, I paid $10 for [1,000 cycles](https://docs.replit.com/cycles/about-cycles). If I'm updating a markdown file like this, I don't need any boost. 
+
+![no-boost-for-markdown](no-boost-for-markdown.png)
+
+But when I start to develop, it quickly maxes out the CPU and at that point, I'd apply a 4x boost which dramatically improves the performance.  
+
+After import the github for this project into repl, I have a [working environment](https://replit.com/@headwinds/northwind-frostpunk) and continue to pursue API and CLI development.
+
+#### API
+
+```
+cd northwind-frostpunk
+go run .
+```
+I open the Shell tool and try to run the app and got this error:
+
+```
+Error while reading config file open .env: no such file or directory
+```
+
+I was using [viper](https://github.com/spf13/viper) to load an `.env` config file but these files have deprecated on Repl which offers a [Secrets tool](https://docs.replit.com/programming-ide/workspace-features/secrets) instead. It was easy to setup the secrets, and it was a touch to include the sample code in Go to hook it up! 
+
+With the Secrets in place, I was able to comment out the viper and use the native os approach: 
+
+```
+elephantSqlConnectionStr := os.Getenv("DBURL")
+```
+
+Now, I will need the CLI to talk to the running APP. 
+
+This is the URL pattern that I need follow to find my URL.
+
+```
+https://replname.username.repl.co
+```
+
+In my case, my URL should be:
+
+```
+https://northwind-frostpunk.headwinds.repl.co
+```
+
+#### CLI
+
+![new-game](new-game.png)
+
+```
+cd northwind-frostpunk/cli
+go run main.go advanceDay
+```
+
+#### Stepping back
+
+An important part of software development in the incremental build. When you begin, if you have never used a certain technology before, one might create a small prototype first to learn the ropes.  
+
+In the case of this project, I decided that I need to step back and descope the project so I that I can better troubleshoot the disconnect between the API and CLI. My hunch was the API will compile but it's not actually running! When I open the browser or attempt to curl endpoints, I don't get the expected results. 
+
+So I did a quick search for `go api` and discovered this starter project `Go x Web API` and have [forked it](https://replit.com/@headwinds/Fork-of-Go-x-Web-API). With this sample project, I was able to confirm that indeed my API wasn't accepting network requests. 
+
+#### Links
 
 - [Create a cleric](https://go.dev/play/p/6zzcX3mWczC)
-
 - [Graphs Overview Part 1](https://www.youtube.com/watch?v=JDP1OVgoa0Q)
 - [Graphs in Golang Part 2](https://www.youtube.com/watch?v=bSZ57h7GN2w)
+- [predict-transactions-on-your-website-using-big-query-ml](https://medium.com/towards-data-science/predict-transactions-on-your-website-using-big-query-ml-c365f58d29ca)
+- [using-chatgpt-to-learn-sql](https://medium.com/geekculture/using-chatgpt-to-learn-sql-53067465076e)
+- [freetree](https://how.studio/work/freetree)
+- [ecosia](https://www.ecosia.org/)
+- [when-to-use-rust-when-to-use-golang](https://blog.logrocket.com/when-to-use-rust-when-to-use-golang/)
 
-https://medium.com/towards-data-science/predict-transactions-on-your-website-using-big-query-ml-c365f58d29ca
 
-https://medium.com/geekculture/using-chatgpt-to-learn-sql-53067465076e
 
-https://how.studio/work/freetree
 
-https://www.ecosia.org/
-
-https://blog.logrocket.com/when-to-use-rust-when-to-use-golang/

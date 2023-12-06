@@ -1,0 +1,15 @@
+entrypoint = "northwinds.go"
+
+modules = ["go"]
+
+[gitHubImport]
+requiredFiles = [".replit"]
+
+[deployment]
+build = ["sh", "-c", "go build northwinds.go"]
+run = ["sh", "-c", "./northwinds"]
+ignorePorts = false
+deploymentTarget = "gce"
+
+[nix]
+channel = "stable-23_05"

@@ -13,13 +13,13 @@ import (
 )
 
 func NorthwindApi() {
-	db := database.Connect();
+	db := database.Connect()
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, "/")
-    })
+		fmt.Fprintf(w, "/")
+	})
 
-	// GAME 
+	// GAME
 	startGameHandler := game.StartGameController(db)
 	http.HandleFunc("/game/start", startGameHandler.StartGame)
 
@@ -39,8 +39,11 @@ func NorthwindApi() {
 	customerJourneyHander := customer_journey.CustomerJourneyController(db)
 	http.HandleFunc("/journeys", customerJourneyHander.GetCustomerJournies)
 
+	domain := "northwind-frostpunk.headwinds.repl.co" //"localhost"
+	port := ""                                        //"8080"
+
 	s := &http.Server{
-		Addr: fmt.Sprintf("%s:%s", "localhost", "8080"),
+		Addr: fmt.Sprintf("%s:%s", domain, port),
 	}
 
 	s.ListenAndServe()
