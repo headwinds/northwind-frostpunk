@@ -3,29 +3,32 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"log"
+	//"log"
+	"os"
 	"strconv"
 
 	_ "github.com/lib/pq"
-	"github.com/spf13/viper"
+	//"github.com/spf13/viper"
 )
 
 const (
-  host     = "localhost"
-  port     = 55432
-  user     = "postgres"
-  password = "postgres"
-  dbname   = "northwind"
+	host     = "localhost"
+	port     = 55432
+	user     = "postgres"
+	password = "postgres"
+	dbname   = "northwind"
 )
 
 func Connect() *sql.DB {
-  db := connectToPostgres();
-  return db
+	db := connectToPostgres()
+	return db
 }
 
 // use viper package to read .env file
 // return the value of the key
 // https://towardsdatascience.com/use-environment-variable-in-your-next-golang-project-39e17c3aaa66
+/*
+On repl, use the secrets approach instead
 func viperEnvVariable(key string) string {
 
   // SetConfigFile explicitly defines the path, name and extension of the config file.
@@ -54,56 +57,62 @@ func viperEnvVariable(key string) string {
 
   return value
 }
-
+*/
 
 func connectToPostgres() *sql.DB {
 
-  elephantSqlConnectionStr := viperEnvVariable("DBURL")
-  str := viperEnvVariable("IS_ELEPHANTSQL")
-  isElephantSql,_ := strconv.ParseBool(str)
-  //isElephantSql := viperEnvVariable("IS_ELEPHANTSQL")
+	//elephantSqlConnectionStr := viperEnvVariable("DBURL")
+	//str := viperEnvVariable("IS_ELEPHANTSQL")
+	elephantSqlConnectionStr := os.Getenv("DBURL")
+	str := os.Getenv("IS_ELEPHANTSQL")
 
-  fmt.Println("viperenv", elephantSqlConnectionStr)
+	fmt.Println("Secrets: ", elephantSqlConnectionStr)
 
-  // Find and read the config file
-  err := viper.ReadInConfig()
+	isElephantSql, _ := strconv.ParseBool(str)
+	//isElephantSql := viperEnvVariable("IS_ELEPHANTSQL")
 
-  if err != nil {
-    log.Fatalf("Error while reading config file %s", err)
-  }
+	//fmt.Println("viperenv", elephantSqlConnectionStr)
 
-  // connect with struct or connection string 
-  psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-    "password=%s dbname=%s sslmode=disable",
-    host, port, user, password, dbname)
- 
+	// Find and read the config file
+	/*
+	  err := viper.ReadInConfig()
 
-  var connStr string
+	  if err != nil {
+	    log.Fatalf("Error while reading config file %s", err)
+	  }
+	*/
 
-  if isElephantSql {
-    connStr = elephantSqlConnectionStr
-  } else {
-    fmt.Println("not elephant")
-    connStr = psqlInfo
-  }
+	// connect with struct or connection string
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
 
-  connStr = elephantSqlConnectionStr //"postgres://pqgotest:password@localhost/pqgotest?sslmode=verify-full"
-  db, err := sql.Open("postgres", connStr)
-  
-  if err != nil {
-    panic(err)
-  }  
+	var connStr string
 
-  err = db.Ping()
-  if err != nil {
-    panic(err)
-  }
+	if isElephantSql {
+		connStr = elephantSqlConnectionStr
+	} else {
+		fmt.Println("not elephant")
+		connStr = psqlInfo
+	}
 
-  if isElephantSql {
-    fmt.Println("Successfully connected to the remote Northwind database on ElephantSQL!")
-  } else {
-    fmt.Println("Successfully connected to the local Northwind database")
-  }
+	connStr = elephantSqlConnectionStr //"postgres://pqgotest:password@localhost/pqgotest?sslmode=verify-full"
+	db, err := sql.Open("postgres", connStr)
 
-  return db
+	if err != nil {
+		panic(err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	if isElephantSql {
+		fmt.Println("Successfully connected to the remote Northwind database on ElephantSQL!")
+	} else {
+		fmt.Println("Successfully connected to the local Northwind database")
+	}
+
+	return db
 }
