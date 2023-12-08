@@ -7,7 +7,7 @@ This is a study exploring golang, the northwind database, and an order status st
 2. interact with a Go CLI 
 3. simulate orders, view a report & have fun!
 
-Golang 1.8+ [install gvm](https://jimkang.medium.com/install-go-on-mac-with-homebrew-5fa421fc55f5)
+Golang 1.9 [install gvm](https://jimkang.medium.com/install-go-on-mac-with-homebrew-5fa421fc55f5)
 
 ## Example SQL Query 
 

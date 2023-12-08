@@ -73,16 +73,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		log.Fatal("Error while creating connection to the database!!")
 	}
 
-	connection, err := connPool.Acquire(context.Background())
-	if err != nil {
-		log.Fatal("Error while acquiring connection from the database pool!!")
-	}
-	defer connection.Release()
-
-	err = connection.Ping(context.Background())
-	if err != nil {
-		log.Fatal("Could not ping database")
-	}
+  defer connPool.Close()
 
 	fmt.Println("Connected to the database!!")
 	query := `SELECT * FROM products LIMIT 5`
@@ -97,16 +88,10 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, p := range products {
-		fmt.Printf("%s: $%d\n", p.ProductName, p.UnitPrice)
+		fmt.Printf("%s\n", p.ProductName)
 	}
 
-	// converts products to json
-	jsonProducts, err := json.Marshal(products)
-
-	json.NewEncoder(w).Encode(jsonProducts)
-
-	defer connPool.Close()
-
+	json.NewEncoder(w).Encode(products)
 }
 
 // util help logging
