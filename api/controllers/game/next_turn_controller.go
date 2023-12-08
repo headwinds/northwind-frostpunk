@@ -1,28 +1,24 @@
 package game
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/headwinds/northwind-frostpunk/api/utils"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func NextTurnController(db *sql.DB) *DatabaseHandler {
+func NextTurnController(dbpool *pgxpool.Pool) *DatabaseHandler {
 	return &DatabaseHandler{
-		db: db,
+		dbpool: dbpool,
 	}
 }
 
 func (h *DatabaseHandler) NextTurn(w http.ResponseWriter, r *http.Request) {
-	if err := h.db.Ping(); err != nil {
-		fmt.Println("DB Error")
-	}
 
 	decision := r.URL.Query().Get("decision")
 	fmt.Println("decision =>", decision) // I should consider encoding each decision into an id
-
 
 	//products
 	url := "http://localhost:8080/products/view?page=1&limit=10"
@@ -35,11 +31,7 @@ func (h *DatabaseHandler) NextTurn(w http.ResponseWriter, r *http.Request) {
 		// or simply do json.NewEncoder(w).Encode(jsonData)
 
 		w.Header().Set("Content-Type", "application/json")
-		
+
 		json.NewEncoder(w).Encode(jsonData)
-    }
-
-	
-	
-
+	}
 }

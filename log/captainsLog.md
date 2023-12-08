@@ -1083,6 +1083,13 @@ So I did a quick search for `go api` and discovered this starter project `Go x W
 - [ecosia](https://www.ecosia.org/)
 - [when-to-use-rust-when-to-use-golang](https://blog.logrocket.com/when-to-use-rust-when-to-use-golang/)
 
+## Day 14
 
+upgrading to [PGX v5 - PostgreSQL Driver and Toolkit](https://github.com/jackc/pgx)
+
+- [working-with-postgresql-in-go-using-pgx](https://donchev.is/post/working-with-postgresql-in-go-using-pgx/)
+- [understanding-database-connection-pools-and-the-pgx-library-in-go](https://medium.com/@neelkanthsingh.jr/understanding-database-connection-pools-and-the-pgx-library-in-go-3087f3c5a0c)
+- [What's new in pgx v5: Introduction](https://ectobit.com/blog/pgx-v5-1/)
+- [how-to-scan-a-queryrow](https://stackoverflow.com/questions/61704842/how-to-scan-a-queryrow-into-a-struct-with-pgx)
 
 

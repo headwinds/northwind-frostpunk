@@ -42,6 +42,10 @@ go run .
 
 You should see the message `Successfully connected to the Northwind database` 
 
+open your browser to:
+http://northwind-frostpunk--headwinds.repl.co
+
+
 ## 3. CLI
 
 The API has to be running in a separate terminal before you can interact with it via the CLI
@@ -52,6 +56,10 @@ Open a third terminal to run the CLI
 cd cli
 go run . 
 ```
+
+
+
+
 ## Tests
 
 ```
@@ -61,4 +69,3 @@ go test ./...
 ## Log
 
 [Captain's Log](log/captainsLog.md)
-

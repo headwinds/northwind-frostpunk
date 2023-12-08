@@ -1,27 +1,25 @@
 package game
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/headwinds/northwind-frostpunk/api/types"
 	"net/http"
+
+  "github.com/jackc/pgx/v5/pgxpool"
 )
 
 type DatabaseHandler struct {
-	db *sql.DB
+	dbpool *pgxpool.Pool
 }
 
-func StartGameController(db *sql.DB) *DatabaseHandler {
+func StartGameController(dbpool *pgxpool.Pool) *DatabaseHandler {
 	return &DatabaseHandler{
-		db: db,
+    dbpool: dbpool,
 	}
 }
 
 func (h *DatabaseHandler) StartGame(w http.ResponseWriter, r *http.Request) {
-	if err := h.db.Ping(); err != nil {
-		fmt.Println("DB Error")
-	}
 
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Println("Hit /game/start route")
