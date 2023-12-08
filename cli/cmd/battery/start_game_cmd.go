@@ -11,10 +11,9 @@ import (
 
 	//"io/ioutil"
 	"net/http"
-	"net/url"
+	//"net/url"
 
 	"github.com/headwinds/northwind-frostpunk/cli/types"
-
 	"github.com/spf13/cobra"
 )
 
@@ -157,27 +156,35 @@ func startGame() {
 
 	if jsonData.Status == 200 {
 		gameDay := jsonData.Body
-		displayGameDay(gameDay)
+
+    displayGameDay(gameDay)
 	}
 }
 
 func nextTurn(decision string) {
-	fmt.Println("nextTurn")
-	URL := "https://northwind-frostpunk.headwinds.repl.co/game/turn/next?decision=" + url.QueryEscape(decision) //"http://localhost:8080/game/turn/next?decision=" + url.QueryEscape(decision)
+	fmt.Println("CLI - nextTurn")
+	//URL := "/game/turn/next?decision=" + url.QueryEscape(decision)   //"http://localhost:8080/game/turn/next?decision=" + url.QueryEscape(decision)
 	//URL := "http://localhost:8080/products/view?page=1&limit=10"
-	jsonData := getUrlProductsResponse(URL)
+	//fmt.Printf("CLI - nextTurn - decision ", decision)
 
-	if jsonData.Status == 200 {
-		var options []string
-		for _, product := range jsonData.Body {
-			option := fmt.Sprintf("%s - $%v", product.ProductName, product.UnitPrice)
-			options = append(options, option)
-		}
-		// can add search https://medium.com/manifoldco/improve-your-command-line-go-application-with-promptui-6c4e6fb5a1bc
-		decision := PromptGameChoice(options, "What would you like to buy?")
+	// use Printf to display the decision
+	fmt.Printf("CLI - nextTurn - decision %s", decision)
 
-		fmt.Println("decision: ", decision)
-	}
+	/*
+		  jsonData := getUrlProductsResponse(URL)
+
+
+			if jsonData.Status == 200 {
+				var options []string
+				for _, product := range jsonData.Body {
+					option := fmt.Sprintf("%s - $%v", product.ProductName, product.UnitPrice)
+					options = append(options, option)
+				}
+				// can add search https://medium.com/manifoldco/improve-your-command-line-go-application-with-promptui-6c4e6fb5a1bc
+				decision := PromptGameChoice(options, "What would you like to buy?")
+
+				fmt.Println("decision: ", decision)
+			}*/
 }
 
 func init() {

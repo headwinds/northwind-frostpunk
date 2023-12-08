@@ -7,14 +7,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-
 	"github.com/gorilla/mux"
-	"github.com/headwinds/northwind-frostpunk/database"
+  "github.com/headwinds/northwind-frostpunk/api/types"
 	//"github.com/headwinds/northwind-frostpunk/api/controllers/customer_journey"
-	//"github.com/headwinds/northwind-frostpunk/api/controllers/game"
+	"github.com/headwinds/northwind-frostpunk/api/controllers/game"
 	//"github.com/headwinds/northwind-frostpunk/api/controllers/orders"
-	//"github.com/headwinds/northwind-frostpunk/api/controllers/products"
-	"github.com/jackc/pgx/v5"
+	"github.com/headwinds/northwind-frostpunk/api/controllers/products"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -24,13 +22,30 @@ func NorthwindApi() {
 	// Init the mux router
 	router := mux.NewRouter()
 
-	// Route handles & endpoints
+  ctx := context.Background()
+  connPool, err := pgxpool.New(ctx, os.Getenv("ELEPHANT_CONNECTION_STR"))
+  if err != nil {
+    fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+    os.Exit(1)
+  }
+  defer connPool.Close()
+
+  // before proceeding, ping the database if it is available
+  err = connPool.Ping(ctx)
+  if err != nil {
+    log.Fatal("Error while pinging the database!!")
+  }
+
+	// Home
 	router.HandleFunc("/", GetHome).Methods("GET")
 
-	// Get all the products
-	router.HandleFunc("/products", GetProducts).Methods("GET")
-	//router.HandleFunc("/products", GetProducts).Methods("GET")
-	//router.HandleFunc("/products", CreateProducts).Methods("POST")
+	// Products
+  router.HandleFunc("/products/five", products.GetFiveProducts).Methods("GET")
+  router.HandleFunc("/products", products.GetProducts).Methods("GET")
+
+  // Game 
+  router.HandleFunc("/game/start", game.StartGame).Methods("GET")
+  router.HandleFunc("/game/turn/next", game.NextTurn).Methods("GET")
 
 	// serve the app
 	fmt.Println("Northwind Frostpunk at 8080")
@@ -44,56 +59,6 @@ func checkErr(err error) {
 	}
 }
 
-type Product struct {
-	ProductId       int     `db:"product_id"`
-	ProductName     string  `db:"product_name"`
-	SupplierId      int     `db:"supplier_id"`
-	CategoryId      int     `db:"category_id"`
-	QuantityPerUnit string  `db:"quantity_per_unit"`
-	UnitPrice       float64 `db:"unit_price"`
-	UnitsInStock    int     `db:"units_in_stock"`
-	UnitsonOrder    int     `db:"units_on_order"`
-	ReorderLevel    int     `db:"reorder_level"`
-	Discontinued    int     `db:"discontinued"`
-}
-
-type JsonResponse struct {
-	Type    string    `json:"type"`
-	Message string    `json:"message"`
-	Data    []Product `json:"data"`
-}
-
-// Get all products
-// response and request handlers
-func GetProducts(w http.ResponseWriter, r *http.Request) {
-
-	// Create database connection
-	connPool, err := pgxpool.NewWithConfig(context.Background(), database.Config())
-	if err != nil {
-		log.Fatal("Error while creating connection to the database!!")
-	}
-
-  defer connPool.Close()
-
-	fmt.Println("Connected to the database!!")
-	query := `SELECT * FROM products LIMIT 5`
-
-	rows, err := connPool.Query(context.Background(), query)
-
-	defer rows.Close()
-
-	products, err := pgx.CollectRows(rows, pgx.RowToStructByName[Product])
-	if err != nil {
-		fmt.Printf("CollectRows error: %v", err)
-		return
-	}
-	for _, p := range products {
-		fmt.Printf("%s\n", p.ProductName)
-	}
-
-	json.NewEncoder(w).Encode(products)
-}
-
 // util help logging
 func printMessage(message string) {
 	fmt.Println("")
@@ -102,24 +67,8 @@ func printMessage(message string) {
 }
 
 func GetHome(w http.ResponseWriter, r *http.Request) {
-	dbpool, err := pgxpool.New(context.Background(), os.Getenv("ELEPHANT_CONNECTION_STR"))
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
-		os.Exit(1)
-	}
-	defer dbpool.Close()
-
-	var greeting string
-	err = dbpool.QueryRow(context.Background(), "select 'Elephant never forgets!'").Scan(&greeting)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
-		os.Exit(1)
-	}
-
-	fmt.Println(greeting)
-
 	hello := "Northwind Frostpunk at your service!"
-
-	fmt.Fprintf(w, hello)
 	fmt.Println(hello)
+  jsonMessage := types.JsonMessageResponse{Type: "Success", Message: hello}
+  json.NewEncoder(w).Encode(jsonMessage)
 }

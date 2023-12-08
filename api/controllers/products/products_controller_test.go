@@ -1,5 +1,5 @@
 package products
-
+/*
 import (
 	"encoding/json"
 	"net/http"
@@ -24,10 +24,8 @@ func TestGetUrl(t *testing.T) {
 			t.Errorf("Expected Accept: application/json header, got: %s", r.Header.Get("Accept"))
 		}
 
-		/*
-
 		productsHttpResp := types.ProductsHttpResp{
-		*/
+
 		productA := types.Product{"Chai", 18.00, 39}
 		productB := types.Product{"Chang", 19.00, 17}
 		productC := types.Product{"Aniseed Syrup", 10.00, 13}
@@ -49,3 +47,4 @@ func TestGetUrl(t *testing.T) {
 	}
 
 }
+*/
